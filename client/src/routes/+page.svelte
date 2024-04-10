@@ -206,7 +206,7 @@
 						<div>Available Updates:</div>
 						<div class="flex-1 text-3xl font-extrabold">
 							{#if data.updates === null}
-								<div class="animate-pulse sm:text-lg">Calculating available updates...</div>
+								<div class="animate-pulse text-lg">Calculating available updates...</div>
 							{:else}
 								{data.updates}
 							{/if}
@@ -233,7 +233,7 @@
 						<div class="flex-1 text-3xl font-extrabold">
 							{#if data.networkLatency === null}
 								<div class="flex items-center gap-2">
-									<div class="animate-pulse sm:text-lg">
+									<div class="animate-pulse text-lg">
 										Pinging endpoints and averaging speed...
 									</div>
 								</div>
