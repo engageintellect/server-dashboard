@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { onMount, onDestroy } from 'svelte';
-	import { fade } from 'svelte/transition';
+	import { slide } from 'svelte/transition';
 
 	let ws: WebSocket;
 
@@ -12,6 +12,7 @@
 		| 'memoryAvailable'
 		| 'cpuUsage'
 		| 'diskUsage'
+		| 'updates'
 		| 'networkUsage'
 		| 'networkLatency'
 		| 'networkPorts'
@@ -25,6 +26,7 @@
 		memoryAvailable: '/api/memory/available',
 		cpuUsage: '/api/cpu/usage',
 		diskUsage: '/api/disk/usage',
+		updates: '/api/updates',
 		networkUsage: '/api/network/usage',
 		networkLatency: '/api/network/latency',
 		networkPorts: '/api/network/ports',
@@ -39,6 +41,7 @@
 		memoryAvailable: null,
 		cpuUsage: null,
 		diskUsage: null,
+		updates: null,
 		networkUsage: null,
 		networkLatency: null,
 		networkPorts: null,
@@ -87,10 +90,11 @@
 {#if data.hostname === null}
 	<div class="mx-auto min-h-screen max-w-5xl p-2 sm:p-5">
 		<div role="alert" class="alert shadow-lg">
-			<div class="loading loading-spinner loading-md"></div>
+			<div class="loading loading-spinner loading-lg scale-125"></div>
 			<div>
 				<h3 class="text-2xl font-bold">Loading Server Data...</h3>
-				<div class="text-xs">Establishing WebSocket connection to server.</div>
+				<div class="text-sm">Establishing WebSocket connection to server.</div>
+				<div class="animate-pulse pt-5 text-sm">This may take a few seconds...</div>
 			</div>
 		</div>
 	</div>
@@ -138,14 +142,14 @@
 				</div>
 			</div>
 
-			<div class="flex flex-col gap-2 sm:flex-row">
+			<div class="flex flex-col gap-2 sm:my-5 sm:flex-row">
 				<div class="flex w-full gap-2">
-					<div class="card w-full flex-1 bg-base-300">
+					<div class="card w-full flex-1 bg-primary text-primary-content">
 						<div class="card-body h-full p-5">
 							<div>Memory Used:</div>
 							<div class="flex-1 text-3xl font-extrabold">
 								{#if data.memoryUsed === null}
-									<div class="loading loading-spinner loading-md"></div>
+									<div class="animate-pulse text-lg">Calculating Memory...</div>
 								{:else}
 									{data.memoryUsed}
 								{/if}
@@ -153,12 +157,12 @@
 						</div>
 					</div>
 
-					<div class="card w-full flex-1 bg-base-300">
+					<div class="card w-full flex-1 bg-primary text-primary-content">
 						<div class="card-body h-full p-5">
 							<div>Memory Available:</div>
 							<div class="flex-1 text-3xl font-extrabold">
 								{#if data.memoryAvailable === null}
-									<div class="loading loading-spinner loading-md"></div>
+									<div class="animate-pulse text-lg">Calculating Memory...</div>
 								{:else}
 									{data.memoryAvailable}
 								{/if}
@@ -168,12 +172,12 @@
 				</div>
 
 				<div class="flex w-full gap-2">
-					<div class="card w-full flex-1 bg-base-300">
+					<div class="card w-full flex-1 bg-primary text-primary-content">
 						<div class="card-body h-full p-5">
 							<div>CPU Usage:</div>
 							<div class="flex-1 text-3xl font-extrabold">
 								{#if data.cpuUsage === null}
-									<div class="loading loading-spinner loading-md"></div>
+									<div class="animate-pulse text-lg">Calculating CPU usage...</div>
 								{:else}
 									{data.cpuUsage}
 								{/if}
@@ -181,12 +185,12 @@
 						</div>
 					</div>
 
-					<div class="card w-full flex-1 bg-base-300">
+					<div class="card w-full flex-1 bg-primary text-primary-content">
 						<div class="card-body h-full p-5">
 							<div>Disk Usage:</div>
 							<div class="flex-1 text-3xl font-extrabold">
 								{#if data.diskUsage === null}
-									<div class="loading loading-spinner loading-md"></div>
+									<div class="animate-pulse text-lg">Calculating disk usage...</div>
 								{:else}
 									{data.diskUsage}
 								{/if}
@@ -199,23 +203,40 @@
 			<div class="flex flex-col gap-2 sm:flex-row">
 				<div class="card flex-1 bg-base-300">
 					<div class="card-body h-full p-5">
+						<div>Available Updates:</div>
+						<div class="flex-1 text-3xl font-extrabold">
+							{#if data.updates === null}
+								<div class="animate-pulse sm:text-lg">Calculating available updates...</div>
+							{:else}
+								{data.updates}
+							{/if}
+						</div>
+					</div>
+				</div>
+
+				<!-- <div class="card flex-1 bg-base-300">
+					<div class="card-body h-full p-5">
 						<div>Network Usage:</div>
 						<div class="flex-1 text-3xl font-extrabold">
 							{#if data.networkUsage === null}
-								<div class="loading loading-spinner loading-md"></div>
+								<div class="animate-pulse text-lg">Calculating network usage...</div>
 							{:else}
 								{data.networkUsage}
 							{/if}
 						</div>
 					</div>
-				</div>
+				</div> -->
 
 				<div class="card flex-1 bg-base-300">
 					<div class="card-body h-full p-5">
 						<div>Network Latency:</div>
 						<div class="flex-1 text-3xl font-extrabold">
 							{#if data.networkLatency === null}
-								<div class="loading loading-spinner loading-md"></div>
+								<div class="flex items-center gap-2">
+									<div class="animate-pulse sm:text-lg">
+										Pinging endpoints and averaging speed...
+									</div>
+								</div>
 							{:else}
 								{data.networkLatency}
 							{/if}
