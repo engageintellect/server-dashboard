@@ -1,0 +1,39 @@
+{
+	"/": [],
+	"/api/cpu/usage": [
+		"src/routes/api/cpu/usage/+server.ts"
+	],
+	"/api/disk/usage": [
+		"src/routes/api/disk/usage/+server.ts"
+	],
+	"/api/hostname": [
+		"src/routes/api/hostname/+server.ts"
+	],
+	"/api/memory/available": [
+		"src/routes/api/memory/available/+server.ts"
+	],
+	"/api/memory/used": [
+		"src/routes/api/memory/used/+server.ts"
+	],
+	"/api/network/latency": [
+		"src/routes/api/network/latency/+server.ts"
+	],
+	"/api/network/ports": [
+		"src/routes/api/network/ports/+server.ts"
+	],
+	"/api/network/usage": [
+		"src/routes/api/network/usage/+server.ts"
+	],
+	"/api/os": [
+		"src/routes/api/os/+server.ts"
+	],
+	"/api/services/running": [
+		"src/routes/api/services/running/+server.ts"
+	],
+	"/api/updates": [
+		"src/routes/api/updates/+server.ts"
+	],
+	"/api/uptime": [
+		"src/routes/api/uptime/+server.ts"
+	]
+}
