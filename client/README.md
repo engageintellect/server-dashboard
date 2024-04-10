@@ -1,4 +1,4 @@
-# server-dashboard (clinet)
+# server-dashboard (client)
 
 ## Getting Started
 
