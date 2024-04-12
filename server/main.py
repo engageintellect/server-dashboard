@@ -109,7 +109,6 @@ def get_open_ports():
 
 @app.get("/api/services/running")
 def get_running_services():
-    print('HELLLOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO')
     command = "systemctl list-units --type=service --state=running | grep '\.service' | awk '{print $1}'"
     output = subprocess.getoutput(command)
     services = output.split('\n')
