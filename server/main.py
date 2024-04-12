@@ -53,11 +53,7 @@ def get_network_usage(interface="eth0"):
 def get_upgradable_packages():
     command = 'apt list --upgradable 2>/dev/null'  # Redirect stderr to /dev/null to hide warnings
     output = subprocess.getoutput(command)
-    
-    # Split the output by lines and filter out empty lines or lines that don't contain 'upgradable from'
     upgradable_packages = [line for line in output.split('\n') if 'upgradable from' in line]
-    
-    # Extract only the package names and their versions
     package_list = [line.split()[0] for line in upgradable_packages]
     
     return package_list
