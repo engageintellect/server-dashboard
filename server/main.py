@@ -79,7 +79,7 @@ def get_network_usage(interface="eth0"):
     received = subprocess.getoutput(received_command)
     sent = subprocess.getoutput(sent_command)
 
-    return {"received": f"{received} MB", "sent": f"{sent} MB"}
+    return {"received": received, "sent": sent}
 
 
 # @app.get("/api/network/usage")
