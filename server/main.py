@@ -75,8 +75,7 @@ cp
 
 @app.get("/api/network/usage")
 def get_network_usage(interface="eth0"):
-    command = f"sar -n DEV 1 1 | awk '/Average: {interface}/ \
-                 {{ printf(\"RX: %.2f KB/s, TX: %.2f KB/s\\n\", $5, $6) }}'"
+    command = f"sar -n DEV 1 1 | awk '/Average: {interface}/{{ printf(\"RX: %.2f KB/s, TX: %.2f KB/s\\n\", $5, $6) }}'"
     return subprocess.getoutput(command)
 
 
