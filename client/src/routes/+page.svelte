@@ -219,7 +219,7 @@
 				</div>
 			</div>
 
-			<div class="flex flex-col gap-2 sm:flex-row">
+			<div class="flex flex-col gap-2 sm:grid sm:grid-cols-4">
 				<div class="card flex-1 bg-base-300">
 					<div class="card-body h-full p-5">
 						<div>Available Updates:</div>
