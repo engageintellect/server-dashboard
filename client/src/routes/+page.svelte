@@ -269,18 +269,27 @@
 					</div>
 				</div>
 
-				<div class="card flex-1 bg-base-300">
+				<!-- <div class="card flex-1 bg-base-300">
 					<div class="card-body h-full p-5">
 						<div>Network Usage:</div>
 						<div class="flex-1 text-3xl font-extrabold">
 							{#if data.networkUsage === null}
 								<div class="animate-pulse text-lg">Calculating network usage...</div>
 							{:else}
-								{data.networkUsage}
+
+							<div class="flex flex-col gap-2 text-2xl">
+								<div>
+									{data.networkUsage.received}
+								</div>
+
+								<div>
+									{data.networkUsage.sent}
+								</div>
+							</div>
 							{/if}
 						</div>
 					</div>
-				</div>
+				</div> -->
 
 				<div class="card flex-1 bg-base-300">
 					<div class="card-body h-full p-5">
