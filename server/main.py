@@ -58,6 +58,7 @@ def get_network_usage(interface="eth0"):
 
 
 
+@app.get("/api/updatable-packages")
 def get_upgradable_packages():
     command = 'apt list --upgradable 2>/dev/null'  # Redirect stderr to /dev/null to hide warnings
     output = subprocess.getoutput(command)
