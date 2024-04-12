@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { PUBLIC_WEB_SOCKET_URL } from '$env/static/public';
 	import { onMount, onDestroy } from 'svelte';
 	import { slide, fade } from 'svelte/transition';
 	import Icon from '@iconify/svelte';
@@ -66,7 +67,7 @@
 
 		// Establish WebSocket connection after 5 seconds
 		setTimeout(() => {
-			ws = new WebSocket(`ws://45.56.88.245:6767/api/ws`);
+			ws = new WebSocket(PUBLIC_WEB_SOCKET_URL);
 			ws.onmessage = (event) => {
 				const newData = JSON.parse(event.data);
 				Object.keys(newData).forEach((key) => {
@@ -97,10 +98,6 @@
 		const handleShowUpdates = () => {
 			showUpdates = !showUpdates;
 		};
-
-
-
-
 </script>
 
 {#if data.hostname === null}
@@ -249,16 +246,15 @@
 								{#if showUpdates}
 									<div transition:slide={{ delay:0, duration:100 }} class="text-sm">
 
-										<ul>
-
-										{#each data.updatablePackages as pkg}
-											<li class="flex items-start gap-2">
-												<Icon icon="bi-dash-lg" class="h-4 w-4" />
-												<div class="font-medium">
-													{pkg}
-												</div>
-											</li>
-										{/each}
+										<ul class="pt-2">
+											{#each data.updatablePackages as pkg}
+												<li class="flex items-start gap-2">
+													<Icon icon="bi-dash-lg" class="h-4 w-4" />
+													<div class="font-medium">
+														{pkg}
+													</div>
+												</li>
+											{/each}
 										</ul>
 									</div>
 									{/if}
@@ -277,15 +273,15 @@
 								<div class="animate-pulse text-lg">Calculating network usage...</div>
 							{:else}
 
-							<div class="flex flex-col gap-2 text-xl">
+							<div class="flex flex-col gap-2 text-2xl">
 								
 								<div>
-									<div class="text-sm">Received:</div>
+									<div class="font-thin text-base lowercase">Received:</div>
 									{data.networkUsage.received} MB
 								</div>
 
 								<div>
-									<div class="text-sm">Sent:</div>
+									<div class="font-thin text-base lowercase">Sent:</div>
 									{data.networkUsage.sent} MB
 								</div>
 
