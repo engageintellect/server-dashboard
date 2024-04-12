@@ -118,24 +118,30 @@ def get_running_services():
 @app.websocket("/api/ws")
 async def websocket_endpoint(websocket: WebSocket):
     await websocket.accept()
-    while True:
-        data = {
-            "hostname": get_hostname(),
-            "os": get_os(),
-            "uptime": get_uptime(),
-            "memoryUsed": get_used_ram(),
-            "memoryAvailable": get_available_ram(),
-            "cpuUsage": get_cpu_usage(),
-            "diskUsage": get_disk_usage(),
-            "networkUsage": get_network_usage(),
-            "networkLatency": get_network_latency(),
-            "networkPorts": get_open_ports(),
-            "runningServices": get_running_services(),
-        }
-        await websocket.send_json(data)
-        await asyncio.sleep(3)  # Send updated data every 5 seconds
+    print(f"WebSocket connection established with: {websocket.client}")
+    try:
+        while True:
+            data = {
+                "hostname": get_hostname(),
+                "os": get_os(),
+                "uptime": get_uptime(),
+                "memoryUsed": get_used_ram(),
+                "memoryAvailable": get_available_ram(),
+                "cpuUsage": get_cpu_usage(),
+                "diskUsage": get_disk_usage(),
+                "networkUsage": get_network_usage(),
+                "networkLatency": get_network_latency(),
+                "networkPorts": get_open_ports(),
+                "runningServices": get_running_services(),
+            }
+            await websocket.send_json(data)
+            await asyncio.sleep(3)  # Send updated data every 5 seconds
+    except Exception as e:
+        print(f"WebSocket connection error: {e}")
+    finally:
+        print(f"WebSocket connection closed with: {websocket.client}")
 
 if __name__ == "__main__":
-    # uvicorn.run(app, host='0.0.0.0', port=6767)
-    uvicorn.run("main:app", host="0.0.0.0", port=6767, ssl_keyfile="/etc/letsencrypt/live/engage-dev.com/privkey.pem",
+    # uvicorn.run(app, host='0.0.0.0', port=4321)
+    uvicorn.run("main:app", host="0.0.0.0", port=4321, ssl_keyfile="/etc/letsencrypt/live/engage-dev.com/privkey.pem",
                 ssl_certfile="/etc/letsencrypt/live/engage-dev.com/fullchain.pem")
