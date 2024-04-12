@@ -72,11 +72,13 @@ def get_upgradable_packages():
 
 @app.get("/api/network/usage")
 def get_network_usage(interface="eth0"):
-    # command = f"sar -n DEV 1 1 | awk '/Average: {interface}/{{ printf(\"RX: %.2f KB/s, TX: %.2f KB/s\\n\", $5, $6) }}'"
-	received = f"ifconfig eth0 | grep 'RX packets' | awk '{print $5/1024/1024 " MB received"}'"
-	sent = f"ifconfig eth0 | grep 'TX packets' | awk '{print $5/1024/1024 " MB sent"}'"
+    received_command = f"ifconfig {interface} | grep 'RX packets' | awk '{{print $5/1024/1024 \" MB received\"}}'"
+    sent_command = f"ifconfig {interface} | grep 'TX packets' | awk '{{print $5/1024/1024 \" MB sent\"}}'"
 
-    return subprocess.getoutput(received, sent)
+    received = subprocess.getoutput(received_command)
+    sent = subprocess.getoutput(sent_command)
+
+    return {"received": received, "sent": sent}
 
 
 @app.get("/api/network/latency")
