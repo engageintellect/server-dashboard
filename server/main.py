@@ -57,7 +57,6 @@ def get_network_usage(interface="eth0"):
     return subprocess.getoutput(command)
 
 
-
 @app.get("/api/updatable-packages")
 def get_upgradable_packages():
     command = 'apt list --upgradable 2>/dev/null'  # Redirect stderr to /dev/null to hide warnings
@@ -72,16 +71,26 @@ def get_upgradable_packages():
     return package_list
 
 
-
 @app.get("/api/network/usage")
 def get_network_usage(interface="eth0"):
-    received_command = f"ifconfig {interface} | grep 'RX packets' | awk '{{print $5/1024/1024}}'"
-    sent_command = f"ifconfig {interface} | grep 'TX packets' | awk '{{print $5/1024/1024}}'"
+    received_command = f"ifconfig {interface} | grep 'RX packets' | awk '{{printf \"%.2f\\n\", $5/1024/1024}}'"
+    sent_command = f"ifconfig {interface} | grep 'TX packets' | awk '{{printf \"%.2f\\n\", $5/1024/1024}}'"
 
     received = subprocess.getoutput(received_command)
     sent = subprocess.getoutput(sent_command)
 
-    return {"received": received, "sent": sent}
+    return {"received": f"{received} MB", "sent": f"{sent} MB"}
+
+
+# @app.get("/api/network/usage")
+# def get_network_usage(interface="eth0"):
+#     received_command = f"ifconfig {interface} | grep 'RX packets' | awk '{{print $5/1024/1024}}'"
+#     sent_command = f"ifconfig {interface} | grep 'TX packets' | awk '{{print $5/1024/1024}}'"
+
+#     received = subprocess.getoutput(received_command)
+#     sent = subprocess.getoutput(sent_command)
+
+#     return {"received": received, "sent": sent}
 
 
 @app.get("/api/network/latency")

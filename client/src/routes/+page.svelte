@@ -277,14 +277,18 @@
 								<div class="animate-pulse text-lg">Calculating network usage...</div>
 							{:else}
 
-							<div class="flex flex-col gap-2 text-2xl">
+							<div class="flex flex-col gap-2 text-xl">
+								
 								<div>
-									{data.networkUsage.received}
+									<div class="text-sm">Received:</div>
+									{data.networkUsage.received} MB
 								</div>
 
 								<div>
-									{data.networkUsage.sent}
+									<div class="text-sm">Sent:</div>
+									{data.networkUsage.sent} MB
 								</div>
+
 							</div>
 							{/if}
 						</div>
