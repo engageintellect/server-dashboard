@@ -269,7 +269,7 @@
 					</div>
 				</div>
 
-				<!-- <div class="card flex-1 bg-base-300">
+				<div class="card flex-1 bg-base-300">
 					<div class="card-body h-full p-5">
 						<div>Network Usage:</div>
 						<div class="flex-1 text-3xl font-extrabold">
@@ -280,7 +280,7 @@
 							{/if}
 						</div>
 					</div>
-				</div> -->
+				</div>
 
 				<div class="card flex-1 bg-base-300">
 					<div class="card-body h-full p-5">
