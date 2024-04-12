@@ -50,7 +50,7 @@
 
 		<div class="">
 			<div class="dropdown dropdown-end">
-				<div tabindex="0" role="button" class="tooltip" data-tip="hello">
+				<div tabindex="0" role="button">
 
 		<div class="lg:tooltip lg:tooltip-left" data-tip="Theme Selector">
 			<button class="btn btn-ghost">

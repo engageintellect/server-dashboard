@@ -147,7 +147,7 @@
 				<div class="card flex-1 bg-base-300">
 					<div class="card-body h-full p-5">
 						<div>Uptime:</div>
-						<div class="flex-1 text-sm font-extrabold sm:text-2xl">
+						<div class="flex-1 text-sm font-extrabold sm:text-lg">
 							{#if data.uptime === null}
 								<div class="loading loading-spinner loading-md"></div>
 							{:else}
@@ -158,7 +158,7 @@
 				</div>
 			</div>
 
-			<div class="flex flex-col gap-2 sm:my-5 sm:flex-row">
+			<div class="flex flex-col gap-2 sm:my-5 md:flex-row">
 				<div class="flex w-full gap-2">
 					<div class="card w-full flex-1 bg-primary text-primary-content">
 						<div class="card-body h-full p-5">
@@ -180,7 +180,13 @@
 								{#if data.memoryAvailable === null}
 									<div class="animate text-base m:text-lg">Calculating Memory...</div>
 								{:else}
-									{data.memoryAvailable} <span class="">GB</span>
+								<div class="flex items-end gap-0">
+
+									<div>
+										{data.memoryAvailable} 
+									</div>
+									<div class="text-sm">GB</div>
+								</div>
 								{/if}
 							</div>
 						</div>
@@ -225,12 +231,14 @@
 								<div class="animate-pulse text-base sm:text-lg">Calculating available updates...</div>
 							{:else}
 
-							<div class="flex flex-col gap-2">
+							<div class="flex flex-col justify-between gap-2 h-full">
 
-								{data.updates}
+								<div class="text-5xl pb-2">
+									{data.updates}
+								</div>
 
 								{#if data.updates > 0}
-									<button on:click={handleShowUpdates} class="w-full btn btn-primary">
+									<button on:click={handleShowUpdates} class="w-full btn btn-primary ">
 										{#if showUpdates}
 											Hide Updates
 										{:else}
@@ -239,7 +247,7 @@
 									</button>
 
 								{#if showUpdates}
-									<div transition:slide={{ delay:0, duration:500 }} class="text-sm">
+									<div transition:slide={{ delay:0, duration:100 }} class="text-sm">
 
 										<ul>
 
