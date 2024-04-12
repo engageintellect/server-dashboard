@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { onMount, onDestroy } from 'svelte';
-	import { slide } from 'svelte/transition';
+	import { slide, fade } from 'svelte/transition';
+	import Icon from '@iconify/svelte';
 
 	let ws: WebSocket;
 
@@ -13,6 +14,7 @@
 		| 'cpuUsage'
 		| 'diskUsage'
 		| 'updates'
+		| 'updatablePackages'
 		| 'networkUsage'
 		| 'networkLatency'
 		| 'networkPorts'
@@ -27,6 +29,7 @@
 		cpuUsage: '/api/cpu/usage',
 		diskUsage: '/api/disk/usage',
 		updates: '/api/updates',
+		updatablePackages: '/api/updatable-packages',
 		networkUsage: '/api/network/usage',
 		networkLatency: '/api/network/latency',
 		networkPorts: '/api/network/ports',
@@ -42,6 +45,7 @@
 		cpuUsage: null,
 		diskUsage: null,
 		updates: null,
+		updatablePackages: null,
 		networkUsage: null,
 		networkLatency: null,
 		networkPorts: null,
@@ -78,6 +82,8 @@
 				console.log('WebSocket connection closed');
 			};
 		}, 5000); // 5-second delay
+
+
 	});
 
 	onDestroy(() => {
@@ -85,6 +91,16 @@
 			ws.close();
 		}
 	});
+
+		let showUpdates = false;
+
+		const handleShowUpdates = () => {
+			showUpdates = !showUpdates;
+		};
+
+
+
+
 </script>
 
 {#if data.hostname === null}
@@ -149,9 +165,9 @@
 							<div>Memory Used:</div>
 							<div class="flex-1 text-3xl font-extrabold">
 								{#if data.memoryUsed === null}
-									<div class="animate-pulse text-lg">Calculating Memory...</div>
+									<div class="animate-pulse text-base sm:text-lg">Calculating Memory...</div>
 								{:else}
-									{data.memoryUsed}
+									{data.memoryUsed}%
 								{/if}
 							</div>
 						</div>
@@ -162,9 +178,9 @@
 							<div>Memory Available:</div>
 							<div class="flex-1 text-3xl font-extrabold">
 								{#if data.memoryAvailable === null}
-									<div class="animate-pulse text-lg">Calculating Memory...</div>
+									<div class="animate text-base m:text-lg">Calculating Memory...</div>
 								{:else}
-									{data.memoryAvailable}
+									{data.memoryAvailable} <span class="">GB</span>
 								{/if}
 							</div>
 						</div>
@@ -177,9 +193,9 @@
 							<div>CPU Usage:</div>
 							<div class="flex-1 text-3xl font-extrabold">
 								{#if data.cpuUsage === null}
-									<div class="animate-pulse text-lg">Calculating CPU usage...</div>
+									<div class="animate-pulse text-base sm:text-lg">Calculating CPU usage...</div>
 								{:else}
-									{data.cpuUsage}
+									{data.cpuUsage}%
 								{/if}
 							</div>
 						</div>
@@ -190,9 +206,9 @@
 							<div>Disk Usage:</div>
 							<div class="flex-1 text-3xl font-extrabold">
 								{#if data.diskUsage === null}
-									<div class="animate-pulse text-lg">Calculating disk usage...</div>
+									<div class="animate-pulse text-base sm:text-lg">Calculating disk usage...</div>
 								{:else}
-									{data.diskUsage}
+									{data.diskUsage}%
 								{/if}
 							</div>
 						</div>
@@ -206,9 +222,40 @@
 						<div>Available Updates:</div>
 						<div class="flex-1 text-3xl font-extrabold">
 							{#if data.updates === null}
-								<div class="animate-pulse text-lg">Calculating available updates...</div>
+								<div class="animate-pulse text-base sm:text-lg">Calculating available updates...</div>
 							{:else}
+
+							<div class="flex flex-col gap-2">
+
 								{data.updates}
+
+								{#if data.updates > 0}
+									<button on:click={handleShowUpdates} class="w-full btn btn-primary">
+										{#if showUpdates}
+											Hide Updates
+										{:else}
+											Show Updates
+										{/if}
+									</button>
+
+								{#if showUpdates}
+									<div transition:slide={{ delay:0, duration:500 }} class="text-sm">
+
+										<ul>
+
+										{#each data.updatablePackages as pkg}
+											<li class="flex items-start gap-2">
+												<Icon icon="bi-dash-lg" class="h-4 w-4" />
+												<div class="font-medium">
+													{pkg}
+												</div>
+											</li>
+										{/each}
+										</ul>
+									</div>
+									{/if}
+								{/if}
+							</div>
 							{/if}
 						</div>
 					</div>
@@ -233,7 +280,7 @@
 						<div class="flex-1 text-3xl font-extrabold">
 							{#if data.networkLatency === null}
 								<div class="flex items-center gap-2">
-									<div class="animate-pulse text-lg">
+									<div class="animate-pulse text-base sm:text-lg">
 										Pinging endpoints and averaging speed...
 									</div>
 								</div>
@@ -252,7 +299,7 @@
 						{:else}
 							<div class="flex flex-1 flex-col">
 								{#each data.networkPorts as port}
-									<div class="font-extrabold sm:text-xl">{port}</div>
+									<div class="font-extrabold text-base sm:text-xl">{port}</div>
 								{/each}
 							</div>
 						{/if}

@@ -56,7 +56,7 @@ devDependencies:
     specifier: ^5.0.2
     version: 5.0.3(postcss@8.4.38)
   prettier:
-    specifier: ^3.1.1
+    specifier: ^3.2.5
     version: 3.2.5
   prettier-plugin-svelte:
     specifier: ^3.1.2
