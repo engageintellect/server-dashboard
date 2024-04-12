@@ -22,10 +22,6 @@ def get_os():
 def get_uptime():
     return subprocess.getoutput("uptime -p | sed 's/up //'")
 
-# @app.get("/api/memory/used")
-# def get_used_ram():
-#     return subprocess.getoutput("free | awk '/Mem:/ { printf(\"%.2f%%\\n\", $3/$2 * 100) }'")
-
 
 @app.get("/api/memory/used")
 def get_used_ram():
@@ -35,10 +31,6 @@ def get_used_ram():
 @app.get("/api/memory/available")
 def get_available_ram():
     return subprocess.getoutput('free | awk \'/Mem:/ { printf("%.2f\\n", $7/1048576) }\'')
-
-# @app.get("/api/memory/available")
-# def get_available_ram():
-#     return subprocess.getoutput("free | awk '/Mem:/ { printf(\"%.2f\\n\", $7/$2 * 100) }'")
 
 
 @app.get("/api/cpu/usage")
@@ -80,17 +72,6 @@ def get_network_usage(interface="eth0"):
     sent = subprocess.getoutput(sent_command)
 
     return {"received": received, "sent": sent}
-
-
-# @app.get("/api/network/usage")
-# def get_network_usage(interface="eth0"):
-#     received_command = f"ifconfig {interface} | grep 'RX packets' | awk '{{print $5/1024/1024}}'"
-#     sent_command = f"ifconfig {interface} | grep 'TX packets' | awk '{{print $5/1024/1024}}'"
-
-#     received = subprocess.getoutput(received_command)
-#     sent = subprocess.getoutput(sent_command)
-
-#     return {"received": received, "sent": sent}
 
 
 @app.get("/api/network/latency")
