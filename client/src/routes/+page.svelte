@@ -1,6 +1,8 @@
 <script lang="ts">
+	import { PUBLIC_WEB_SOCKET_URL } from '$env/static/public';
 	import { onMount, onDestroy } from 'svelte';
-	import { slide } from 'svelte/transition';
+	import { slide, fade } from 'svelte/transition';
+	import Icon from '@iconify/svelte';
 
 	let ws: WebSocket;
 
@@ -13,6 +15,7 @@
 		| 'cpuUsage'
 		| 'diskUsage'
 		| 'updates'
+		| 'updatablePackages'
 		| 'networkUsage'
 		| 'networkLatency'
 		| 'networkPorts'
@@ -27,6 +30,7 @@
 		cpuUsage: '/api/cpu/usage',
 		diskUsage: '/api/disk/usage',
 		updates: '/api/updates',
+		updatablePackages: '/api/updatable-packages',
 		networkUsage: '/api/network/usage',
 		networkLatency: '/api/network/latency',
 		networkPorts: '/api/network/ports',
@@ -42,6 +46,7 @@
 		cpuUsage: null,
 		diskUsage: null,
 		updates: null,
+		updatablePackages: null,
 		networkUsage: null,
 		networkLatency: null,
 		networkPorts: null,
@@ -62,7 +67,7 @@
 
 		// Establish WebSocket connection after 5 seconds
 		setTimeout(() => {
-			ws = new WebSocket(`ws://45.56.88.245:6767/api/ws`);
+			ws = new WebSocket(PUBLIC_WEB_SOCKET_URL);
 			ws.onmessage = (event) => {
 				const newData = JSON.parse(event.data);
 				Object.keys(newData).forEach((key) => {
@@ -78,6 +83,8 @@
 				console.log('WebSocket connection closed');
 			};
 		}, 5000); // 5-second delay
+
+
 	});
 
 	onDestroy(() => {
@@ -85,6 +92,12 @@
 			ws.close();
 		}
 	});
+
+		let showUpdates = false;
+
+		const handleShowUpdates = () => {
+			showUpdates = !showUpdates;
+		};
 </script>
 
 {#if data.hostname === null}
@@ -131,7 +144,7 @@
 				<div class="card flex-1 bg-base-300">
 					<div class="card-body h-full p-5">
 						<div>Uptime:</div>
-						<div class="flex-1 text-sm font-extrabold sm:text-2xl">
+						<div class="flex-1 text-sm font-extrabold sm:text-lg">
 							{#if data.uptime === null}
 								<div class="loading loading-spinner loading-md"></div>
 							{:else}
@@ -142,16 +155,16 @@
 				</div>
 			</div>
 
-			<div class="flex flex-col gap-2 sm:my-5 sm:flex-row">
+			<div class="flex flex-col gap-2 sm:my-5 md:flex-row">
 				<div class="flex w-full gap-2">
 					<div class="card w-full flex-1 bg-primary text-primary-content">
 						<div class="card-body h-full p-5">
 							<div>Memory Used:</div>
 							<div class="flex-1 text-3xl font-extrabold">
 								{#if data.memoryUsed === null}
-									<div class="animate-pulse text-lg">Calculating Memory...</div>
+									<div class="animate-pulse text-base sm:text-lg">Calculating Memory...</div>
 								{:else}
-									{data.memoryUsed}
+									{data.memoryUsed}%
 								{/if}
 							</div>
 						</div>
@@ -162,9 +175,15 @@
 							<div>Memory Available:</div>
 							<div class="flex-1 text-3xl font-extrabold">
 								{#if data.memoryAvailable === null}
-									<div class="animate-pulse text-lg">Calculating Memory...</div>
+									<div class="animate text-base m:text-lg">Calculating Memory...</div>
 								{:else}
-									{data.memoryAvailable}
+								<div class="flex items-end gap-0">
+
+									<div>
+										{data.memoryAvailable} 
+									</div>
+									<div class="text-sm">GB</div>
+								</div>
 								{/if}
 							</div>
 						</div>
@@ -177,9 +196,9 @@
 							<div>CPU Usage:</div>
 							<div class="flex-1 text-3xl font-extrabold">
 								{#if data.cpuUsage === null}
-									<div class="animate-pulse text-lg">Calculating CPU usage...</div>
+									<div class="animate-pulse text-base sm:text-lg">Calculating CPU usage...</div>
 								{:else}
-									{data.cpuUsage}
+									{data.cpuUsage}%
 								{/if}
 							</div>
 						</div>
@@ -190,9 +209,9 @@
 							<div>Disk Usage:</div>
 							<div class="flex-1 text-3xl font-extrabold">
 								{#if data.diskUsage === null}
-									<div class="animate-pulse text-lg">Calculating disk usage...</div>
+									<div class="animate-pulse text-base sm:text-lg">Calculating disk usage...</div>
 								{:else}
-									{data.diskUsage}
+									{data.diskUsage}%
 								{/if}
 							</div>
 						</div>
@@ -200,32 +219,77 @@
 				</div>
 			</div>
 
-			<div class="flex flex-col gap-2 sm:flex-row">
+			<div class="flex flex-col gap-2 sm:grid sm:grid-cols-4">
 				<div class="card flex-1 bg-base-300">
 					<div class="card-body h-full p-5">
 						<div>Available Updates:</div>
 						<div class="flex-1 text-3xl font-extrabold">
 							{#if data.updates === null}
-								<div class="animate-pulse text-lg">Calculating available updates...</div>
+								<div class="animate-pulse text-base sm:text-lg">Calculating available updates...</div>
 							{:else}
-								{data.updates}
+
+							<div class="flex flex-col justify-between gap-2 h-full">
+
+								<div class="text-5xl pb-2">
+									{data.updates}
+								</div>
+
+								{#if data.updates > 0}
+									<button on:click={handleShowUpdates} class="w-full btn btn-primary ">
+										{#if showUpdates}
+											Hide Updates
+										{:else}
+											Show Updates
+										{/if}
+									</button>
+
+								{#if showUpdates}
+									<div transition:slide={{ delay:0, duration:100 }} class="text-sm">
+
+										<ul class="pt-2">
+											{#each data.updatablePackages as pkg}
+												<li class="flex items-start gap-2">
+													<Icon icon="bi-dash-lg" class="h-4 w-4" />
+													<div class="font-medium">
+														{pkg}
+													</div>
+												</li>
+											{/each}
+										</ul>
+									</div>
+									{/if}
+								{/if}
+							</div>
 							{/if}
 						</div>
 					</div>
 				</div>
 
-				<!-- <div class="card flex-1 bg-base-300">
+				<div class="card flex-1 bg-base-300">
 					<div class="card-body h-full p-5">
 						<div>Network Usage:</div>
 						<div class="flex-1 text-3xl font-extrabold">
 							{#if data.networkUsage === null}
 								<div class="animate-pulse text-lg">Calculating network usage...</div>
 							{:else}
-								{data.networkUsage}
+
+							<div class="flex flex-col gap-2 text-2xl">
+								
+								<div>
+									<div class="font-thin text-base lowercase">Received:</div>
+									{data.networkUsage.received} MB
+								</div>
+
+								<div>
+									<div class="font-thin text-base lowercase">Sent:</div>
+									{data.networkUsage.sent} MB
+								</div>
+
+							</div>
 							{/if}
 						</div>
 					</div>
-				</div> -->
+				</div>
 
 				<div class="card flex-1 bg-base-300">
 					<div class="card-body h-full p-5">
@@ -233,7 +297,7 @@
 						<div class="flex-1 text-3xl font-extrabold">
 							{#if data.networkLatency === null}
 								<div class="flex items-center gap-2">
-									<div class="animate-pulse text-lg">
+									<div class="animate-pulse text-base sm:text-lg">
 										Pinging endpoints and averaging speed...
 									</div>
 								</div>
@@ -252,7 +316,7 @@
 						{:else}
 							<div class="flex flex-1 flex-col">
 								{#each data.networkPorts as port}
-									<div class="font-extrabold sm:text-xl">{port}</div>
+									<div class="font-extrabold text-base sm:text-xl">{port}</div>
 								{/each}
 							</div>
 						{/if}

@@ -29,12 +29,12 @@ def get_uptime():
 
 @app.get("/api/memory/used")
 def get_used_ram():
-    return subprocess.getoutput("free | awk '/Mem:/ { printf(\"%.2f%%\\n\", $3/$2 * 100) }'")
+    return subprocess.getoutput("free | awk '/Mem:/ { printf(\"%.2f\\n\", $3/$2 * 100) }'")
 
 
 @app.get("/api/memory/available")
 def get_available_ram():
-    return subprocess.getoutput('free | awk \'/Mem:/ { printf("%.2f GB\\n", $7/1048576) }\'')
+    return subprocess.getoutput('free | awk \'/Mem:/ { printf("%.2f\\n", $7/1048576) }\'')
 
 # @app.get("/api/memory/available")
 # def get_available_ram():
@@ -43,12 +43,12 @@ def get_available_ram():
 
 @app.get("/api/cpu/usage")
 def get_cpu_usage():
-    return subprocess.getoutput("mpstat 1 1 | awk '/Average:/ && $12 ~ /[0-9.]+/ { printf(\"%.2f%%\\n\", 100 - $12) }'")
+    return subprocess.getoutput("mpstat 1 1 | awk '/Average:/ && $12 ~ /[0-9.]+/ { printf(\"%.2f\\n\", 100 - $12) }'")
 
 
 @app.get("/api/disk/usage")
 def get_disk_usage():
-    return subprocess.getoutput("df / | awk 'NR==2 { printf(\"%.2f%%\\n\", $5) }'")
+    return subprocess.getoutput("df / | awk 'NR==2 { printf(\"%.2f\\n\", $5) }'")
 
 
 @app.get("/api/updates")
@@ -57,11 +57,40 @@ def get_network_usage(interface="eth0"):
     return subprocess.getoutput(command)
 
 
+@app.get("/api/updatable-packages")
+def get_upgradable_packages():
+    command = 'apt list --upgradable 2>/dev/null'  # Redirect stderr to /dev/null to hide warnings
+    output = subprocess.getoutput(command)
+    
+    # Split the output by lines and filter out empty lines or lines that don't contain 'upgradable from'
+    upgradable_packages = [line for line in output.split('\n') if 'upgradable from' in line]
+    
+    # Extract only the package names and their versions
+    package_list = [line.split()[0] for line in upgradable_packages]
+    
+    return package_list
+
+
 @app.get("/api/network/usage")
 def get_network_usage(interface="eth0"):
-    command = f"sar -n DEV 1 1 | awk '/Average: {
-        interface}/ {{ printf(\"RX: %.2f KB/s, TX: %.2f KB/s\\n\", $5, $6) }}'"
-    return subprocess.getoutput(command)
+    received_command = f"ifconfig {interface} | grep 'RX packets' | awk '{{printf \"%.2f\\n\", $5/1024/1024}}'"
+    sent_command = f"ifconfig {interface} | grep 'TX packets' | awk '{{printf \"%.2f\\n\", $5/1024/1024}}'"
+
+    received = subprocess.getoutput(received_command)
+    sent = subprocess.getoutput(sent_command)
+
+    return {"received": received, "sent": sent}
+
+
+# @app.get("/api/network/usage")
+# def get_network_usage(interface="eth0"):
+#     received_command = f"ifconfig {interface} | grep 'RX packets' | awk '{{print $5/1024/1024}}'"
+#     sent_command = f"ifconfig {interface} | grep 'TX packets' | awk '{{print $5/1024/1024}}'"
+
+#     received = subprocess.getoutput(received_command)
+#     sent = subprocess.getoutput(sent_command)
+
+#     return {"received": received, "sent": sent}
 
 
 @app.get("/api/network/latency")
@@ -107,4 +136,6 @@ async def websocket_endpoint(websocket: WebSocket):
         await asyncio.sleep(3)  # Send updated data every 5 seconds
 
 if __name__ == "__main__":
-    uvicorn.run(app, host='0.0.0.0', port=6767)
+    # uvicorn.run(app, host='0.0.0.0', port=6767)
+    uvicorn.run("main:app", host="0.0.0.0", port=6767, ssl_keyfile="/etc/letsencrypt/live/engage-dev.com/privkey.pem",
+                ssl_certfile="/etc/letsencrypt/live/engage-dev.com/fullchain.pem")

@@ -6,6 +6,12 @@ A simple server dashboard that displays the CPU and memory usage of the server i
 
 ## Getting Started
 
+## Requirements
+
+- Nmap (install using your package manager)
+
+<strong>Note:</strong> The server must be run as root to be able to scan the network.
+
 ### Running the server
 
 ```bash

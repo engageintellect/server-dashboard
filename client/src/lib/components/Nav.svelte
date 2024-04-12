@@ -46,16 +46,21 @@
 		<!-- </div> -->
 		<!-- </div> -->
 
+
+
 		<div class="">
 			<div class="dropdown dropdown-end">
-				<div tabindex="0" role="button" class="">
-					<!-- Add dropdown icon here -->
-					<div class="btn btn-ghost flex items-center gap-2">
+				<div tabindex="0" role="button">
+
+		<div class="lg:tooltip lg:tooltip-left" data-tip="Theme Selector">
+			<button class="btn btn-ghost">
 						<div class="font-normal lowercase">
 							<Icon icon="gridicons-themes" class="h-7 w-7" />
 						</div>
-						<!-- <ThemeIcon class="h-7 w-7" /> -->
-					</div>
+			</button>
+		</div>
+
+
 				</div>
 				<ul
 					tabindex="-1"
@@ -76,7 +81,7 @@
 				</ul>
 			</div>
 
-			<div class="dropdown dropdown-end">
+			<!-- <div class="dropdown dropdown-end">
 				<div tabindex="0" role="button" class="avatar btn btn-circle btn-ghost">
 					<div class="w-10 rounded-full border border-primary">
 						<img
@@ -98,7 +103,7 @@
 					<li><a href="/">Settings</a></li>
 					<li><a href="/">Logout</a></li>
 				</ul>
-			</div>
+			</div> -->
 		</div>
 	</div>
 </div>
