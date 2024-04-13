@@ -43,7 +43,9 @@ def get_cpu_usage():
 
 @app.get("/api/disk/usage")
 def get_disk_usage():
-    return subprocess.getoutput("df / | awk 'NR==2 { printf(\"%.2f\\n\", $5) }'")
+    # return subprocess.getoutput("df / | awk 'NR==2 { printf(\"%.2f\\n\", $5) }'")
+    disk_usage = requests.get(f'{GLANCES_ENDPOINT}diskio')
+    return disk_usage.json()
 
 # EXPERIMENTAL
 @app.get("/api/load")
