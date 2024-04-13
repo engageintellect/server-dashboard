@@ -49,7 +49,7 @@ def get_disk_usage():
 
 # EXPERIMENTAL
 @app.get("/api/load")
-def get_disk_usage():
+def get_load():
     load = requests.get(f'http://engage-dev.com:4322/api/3/load')
     return load.json()
 
@@ -118,6 +118,7 @@ async def websocket_endpoint(websocket: WebSocket):
                 "memoryAvailable": get_available_ram(),
                 "cpuUsage": get_cpu_usage(),
                 "diskUsage": get_disk_usage(),
+                "systemLoad": get_load(),
                 "networkUsage": get_network_usage(),
                 "networkLatency": get_network_latency(),
                 "networkPorts": get_open_ports(),
