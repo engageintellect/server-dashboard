@@ -4,8 +4,11 @@ from fastapi import FastAPI, WebSocket
 import subprocess
 import uvicorn
 import asyncio
+import requests
 
 app = FastAPI()
+
+GLANCES_ENDPOINT = "http://engage-dev.com:4322/api/3/"
 
 
 @app.get("/api/hostname")
@@ -43,6 +46,12 @@ def get_disk_usage():
     return subprocess.getoutput("df / | awk 'NR==2 { printf(\"%.2f\\n\", $5) }'")
 
 
+@app.get("/api/load")
+def get_disk_usage():
+    load = requests.get(f'{GLANCES_ENDPOINT}/load')
+    return load
+
+
 @app.get("/api/updates")
 def get_network_usage(interface="eth0"):
     command = f"sudo apt update > /dev/null 2>&1 && apt list --upgradable 2>/dev/null | grep -v Listing | wc -l"
@@ -51,11 +60,12 @@ def get_network_usage(interface="eth0"):
 
 @app.get("/api/updatable-packages")
 def get_upgradable_packages():
-    command = 'apt list --upgradable 2>/dev/null'  # Redirect stderr to /dev/null to hide warnings
+    # Redirect stderr to /dev/null to hide warnings
+    command = 'apt list --upgradable 2>/dev/null'
     output = subprocess.getoutput(command)
     upgradable_packages = [line for line in output.split('\n') if 'upgradable from' in line]
     package_list = [line.split()[0] for line in upgradable_packages]
-    
+
     return package_list
 
 
