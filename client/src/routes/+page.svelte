@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { server_loads } from './../../.svelte-kit/generated/client/app.js';
 	import { PUBLIC_WEB_SOCKET_URL } from '$env/static/public';
 	import { onMount, onDestroy } from 'svelte';
 	import { slide, fade } from 'svelte/transition';
@@ -14,6 +15,7 @@
 		| 'memoryAvailable'
 		| 'cpuUsage'
 		| 'diskUsage'
+		| 'systemLoad'
 		| 'updates'
 		| 'updatablePackages'
 		| 'networkUsage'
@@ -29,6 +31,7 @@
 		memoryAvailable: '/api/memory/available',
 		cpuUsage: '/api/cpu/usage',
 		diskUsage: '/api/disk/usage',
+		systemLoad: '/api/load',
 		updates: '/api/updates',
 		updatablePackages: '/api/updatable-packages',
 		networkUsage: '/api/network/usage',
@@ -45,6 +48,7 @@
 		memoryAvailable: null,
 		cpuUsage: null,
 		diskUsage: null,
+		systemLoad: null,
 		updates: null,
 		updatablePackages: null,
 		networkUsage: null,
@@ -95,6 +99,26 @@
 
 	const handleShowUpdates = () => {
 		showUpdates = !showUpdates;
+	};
+
+	let upgradeCredentials: any;
+	const handleSystemUpgrade = async () => {
+		upgradeCredentials = prompt('Enter your password to upgrade the system');
+		if (upgradeCredentials) {
+			const res = await fetch('/api/update-system', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify({ password: upgradeCredentials })
+			});
+
+			if (res.ok) {
+				alert('System upgrade initiated successfully');
+			} else {
+				alert('Failed to initiate system upgrade');
+			}
+		}
 	};
 </script>
 
@@ -208,7 +232,7 @@
 								{#if data.diskUsage === null}
 									<div class="animate-pulse text-base sm:text-lg">Calculating disk usage...</div>
 								{:else}
-									{JSON.stringify(data.diskUsage[0].percent)}%
+									{data.diskUsage}%
 								{/if}
 							</div>
 						</div>
@@ -216,7 +240,7 @@
 				</div>
 			</div>
 
-			<div class="flex flex-col gap-2 sm:grid sm:grid-cols-4">
+			<div class="flex flex-col gap-2 sm:grid sm:grid-cols-2">
 				<div class="card bg-base-300 flex-1">
 					<div class="card-body h-full p-5">
 						<div>Available Updates:</div>
@@ -234,9 +258,20 @@
 									{#if data.updates > 0}
 										<button on:click={handleShowUpdates} class="btn btn-primary w-full">
 											{#if showUpdates}
-												Hide Updates
+												<div class="flex items-center gap-2">
+													<div>Hide Updates</div>
+													<div>
+														<Icon icon="bi-chevron-up" class="h-4 w-4" />
+													</div>
+												</div>
 											{:else}
-												Show Updates
+												<div class="flex items-center gap-2">
+													<div>Show Updates</div>
+
+													<div>
+														<Icon icon="bi-chevron-down" class="h-4 w-4" />
+													</div>
+												</div>
 											{/if}
 										</button>
 
@@ -253,6 +288,10 @@
 													{/each}
 												</ul>
 											</div>
+
+											<button on:click={handleSystemUpgrade} class="btn btn-primary"
+												>Update System</button
+											>
 										{/if}
 									{/if}
 								</div>

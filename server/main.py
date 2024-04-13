@@ -71,6 +71,12 @@ def get_upgradable_packages():
     return package_list
 
 
+@app.get("/api/update-system")
+def apply_system_updates():
+    command = "sudo apt update > /dev/null 2>&1 && sudo apt upgrade -y > /dev/null 2>&1"
+    return subprocess.getoutput(command)    
+
+
 @app.get("/api/network/usage")
 def get_network_usage(interface="eth0"):
     received_command = f"ifconfig {interface} | grep 'RX packets' | awk '{{printf \"%.2f\\n\", $5/1024/1024}}'"
