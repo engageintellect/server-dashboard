@@ -208,7 +208,7 @@
 								{#if data.diskUsage === null}
 									<div class="animate-pulse text-base sm:text-lg">Calculating disk usage...</div>
 								{:else}
-									{JSON.stringify(data.diskUsage.percent)}%
+									{JSON.stringify(data.diskUsage[0].percent)}%
 								{/if}
 							</div>
 						</div>
