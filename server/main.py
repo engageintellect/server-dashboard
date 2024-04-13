@@ -45,7 +45,7 @@ def get_cpu_usage():
 def get_disk_usage():
     return subprocess.getoutput("df / | awk 'NR==2 { printf(\"%.2f\\n\", $5) }'")
 
-
+# EXPERIMENTAL
 @app.get("/api/load")
 def get_disk_usage():
     load = requests.get(f'http://engage-dev.com:4322/api/3/load')
