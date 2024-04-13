@@ -3,9 +3,9 @@
 /client/build
 /client/.svelte-kit
 /client/package
-/client/.env
-/client/.env.*
-/client/!.env.example
+.env
+.env.*
+!.env.example
 /client/vite.config.js.timestamp-*
 /client/vite.config.ts.timestamp-*
 /server/venv
