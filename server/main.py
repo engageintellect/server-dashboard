@@ -49,7 +49,7 @@ def get_disk_usage():
 @app.get("/api/load")
 def get_disk_usage():
     load = requests.get(f'{GLANCES_ENDPOINT}/load')
-    return load
+    return load.json()
 
 
 @app.get("/api/updates")
