@@ -10,7 +10,7 @@ import requests
 
 app = FastAPI()
 
-GLANCES_ENDPOINT = "http://engage-dev.com:4322/api/3/"
+GLANCES_ENDPOINT = "http://engage-dev.com:4322/api/3"
 
 
 @app.get("/api/hostname")
@@ -111,7 +111,7 @@ def get_running_services():
 
 @app.get("/api/processes")
 def get_running_processes():
-    processes = requests.get(f'http://engage-dev.com:4322/api/3/processlist')
+    processes = requests.get(f'{GLANCES_ENDPOINT}/processlist')
     return processes.json()
 
 

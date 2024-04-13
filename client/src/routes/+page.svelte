@@ -16,6 +16,7 @@
 		| 'cpuUsage'
 		| 'diskUsage'
 		| 'systemLoad'
+		| 'runningProcesses'
 		| 'updates'
 		| 'updatablePackages'
 		| 'networkUsage'
@@ -32,6 +33,7 @@
 		cpuUsage: '/api/cpu/usage',
 		diskUsage: '/api/disk/usage',
 		systemLoad: '/api/load',
+		runningProcesses: '/api/processes',
 		updates: '/api/updates',
 		updatablePackages: '/api/updatable-packages',
 		networkUsage: '/api/network/usage',
@@ -49,6 +51,7 @@
 		cpuUsage: null,
 		diskUsage: null,
 		systemLoad: null,
+		runningProcesses: null,
 		updates: null,
 		updatablePackages: null,
 		networkUsage: null,
@@ -363,6 +366,36 @@
 								<div class="text-lg font-thin">{service}</div>
 							{/each}
 						</div>
+					{/if}
+				</div>
+			</div>
+
+			<div class="card bg-base-300 flex-1">
+				<div class="card-body h-full overflow-auto p-5">
+					<div>Running Processes:</div>
+					{#if data.runningProcesses == null}
+						<div class="loading loading-spinner loading-md"></div>
+					{:else}
+						<table class="table-sm table w-full">
+							<thead>
+								<tr>
+									<th class="w-full text-left">Name</th>
+									<th class="w-full text-left">PID</th>
+									<th class="w-full text-left">User</th>
+									<th class="w-full text-left">Memory</th>
+								</tr>
+							</thead>
+							<tbody>
+								{#each data.runningProcesses.sort((a:any, b:any) => b.memory_percent - a.memory_percent) as process}
+									<tr class="text-lg font-thin">
+										<td class="w-full">{process.name}</td>
+										<td class="w-full">{process.pid}</td>
+										<td class="w-full">{process.username}</td>
+										<td class="w-full">{process.memory_percent.toFixed(2)}%</td>
+									</tr>
+								{/each}
+							</tbody>
+						</table>
 					{/if}
 				</div>
 			</div>
