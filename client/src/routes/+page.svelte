@@ -288,10 +288,6 @@
 													{/each}
 												</ul>
 											</div>
-
-											<button on:click={handleSystemUpgrade} class="btn btn-primary"
-												>Update System</button
-											>
 										{/if}
 									{/if}
 								</div>
