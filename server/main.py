@@ -111,7 +111,7 @@ def get_running_services():
 
 @app.get("/api/processes")
 def get_running_processes():
-    processes = requests.get(f'{GLANCES_ENDPOINT}/processlist')
+    processes = requests.get(f'http://engage-dev.com:4322/api/3/processlist')
     return processes.json()
 
 
