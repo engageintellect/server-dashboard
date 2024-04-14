@@ -174,7 +174,13 @@
 							{#if data.uptime === null}
 								<div class="animate-pulse text-base sm:text-lg">Calculating Uptime...</div>
 							{:else}
-								{data.uptime}
+								<ul>
+									{#each data.uptime as timeChunk}
+										<li>
+											{timeChunk}
+										</li>
+									{/each}
+								</ul>
 							{/if}
 						</div>
 					</div>
