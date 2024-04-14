@@ -343,15 +343,74 @@
 				<div class="card bg-base-300 flex-1">
 					<div class="card-body h-full p-5">
 						<div>System Load:</div>
+
+						<div>
+							{#if data.systemLoad}
+								<div class="flex flex-col gap-2">
+									<div class="flex w-full justify-between">
+										<div class="flex items-center gap-2">
+											<div>CPU Cores:</div>
+											<div class="badge badge-primary">{data.systemLoad.cpucore}</div>
+										</div>
+										<!-- <div class="">{data.systemLoad.cpucore}</div> -->
+									</div>
+
+									<div>
+										<div class="flex w-full justify-between">
+											<div class="">Min 1</div>
+											<div class="">
+												{convertFloatToPercentage(data.systemLoad.min1)}%
+											</div>
+										</div>
+
+										<progress
+											class="progress progress-primary w-full"
+											value={convertFloatToPercentage(data.systemLoad.min1)}
+											max="100"
+										/>
+									</div>
+
+									<div>
+										<div class="flex w-full justify-between">
+											<div class="">Min 5</div>
+											<div class="">
+												{convertFloatToPercentage(data.systemLoad.min5)}%
+											</div>
+										</div>
+
+										<progress
+											class="progress progress-primary w-full"
+											value={convertFloatToPercentage(data.systemLoad.min5)}
+											max="100"
+										/>
+									</div>
+
+									<div>
+										<div class="flex w-full justify-between">
+											<div class="">Min 15</div>
+											<div class="">
+												{convertFloatToPercentage(data.systemLoad.min15)}%
+											</div>
+										</div>
+
+										<progress
+											class="progress progress-primary w-full"
+											value={convertFloatToPercentage(data.systemLoad.min15)}
+											max="100"
+										/>
+									</div>
+								</div>
+							{/if}
+						</div>
+					</div>
+				</div>
+
+				<!-- <div class="card bg-base-300 flex-1">
+					<div class="card-body h-full p-5">
+						<div>System Load:</div>
 						<div>
 							{#if data.systemLoad}
 								<table class="w-full table-fixed font-semibold">
-									<!-- <thead> -->
-									<!-- <tr> -->
-									<!-- <th class="">Metric</th> -->
-									<!-- <th class="">Value</th> -->
-									<!-- </tr> -->
-									<!-- </thead> -->
 									<tbody>
 										<tr>
 											<td>CPU Cores</td>
@@ -403,7 +462,7 @@
 							{/if}
 						</div>
 					</div>
-				</div>
+				</div> -->
 			</div>
 
 			<div class="grid grid-cols-1 gap-2 md:grid-cols-3">
