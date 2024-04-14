@@ -203,11 +203,11 @@
 								{#if data.memoryAvailable === null}
 									<div class="animate m:text-lg text-base">Calculating Memory...</div>
 								{:else}
-									<div class="flex items-end gap-0">
+									<div class="flex items-end gap-1">
 										<div>
 											{data.memoryAvailable}
 										</div>
-										<div class="text-sm">GB</div>
+										<div class="">GB</div>
 									</div>
 								{/if}
 							</div>
