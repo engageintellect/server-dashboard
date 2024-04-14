@@ -124,6 +124,10 @@
 			}
 		}
 	};
+
+	function convertFloatToPercentage(floatNumber: number): string {
+		return `${(floatNumber * 100).toFixed(2)}%`;
+	}
 </script>
 
 <svelte:head>
@@ -338,6 +342,67 @@
 
 				<div class="card bg-base-300 flex-1">
 					<div class="card-body h-full p-5">
+						<div>System Load:</div>
+						<div>
+							{#if data.systemLoad}
+								<table class="w-full table-fixed font-semibold">
+									<!-- <thead> -->
+									<!-- <tr> -->
+									<!-- <th class="">Metric</th> -->
+									<!-- <th class="">Value</th> -->
+									<!-- </tr> -->
+									<!-- </thead> -->
+									<tbody>
+										<tr>
+											<td>CPU Cores</td>
+											<td>{data.systemLoad.cpucore}</td>
+										</tr>
+										<tr>
+											<td>Min 1</td>
+											<td>{convertFloatToPercentage(data.systemLoad.min1)}</td>
+										</tr>
+										<tr>
+											<td>Min 5</td>
+											<td>{convertFloatToPercentage(data.systemLoad.min5)}</td>
+										</tr>
+										<tr>
+											<td>Min 15</td>
+											<td>{convertFloatToPercentage(data.systemLoad.min15)}</td>
+										</tr>
+									</tbody>
+								</table>
+							{:else}
+								<div class="animate-pulse text-base sm:text-lg">
+									Pinging endpoints and averaging speed...
+								</div>
+							{/if}
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="grid grid-cols-1 gap-2 md:grid-cols-3">
+				<div class="card bg-base-300 flex-1">
+					<div class="card-body h-full p-5">
+						<div>Network Latency:</div>
+						<div class="flex-1 text-3xl font-extrabold">
+							{#if data.networkLatency === null}
+								<div class="flex items-center gap-2">
+									<div class="animate-pulse text-base sm:text-lg">
+										Pinging endpoints and averaging speed...
+									</div>
+								</div>
+							{:else}
+								<div class="text-3xl sm:text-5xl">
+									{data.networkLatency}
+								</div>
+							{/if}
+						</div>
+					</div>
+				</div>
+
+				<div class="card bg-base-300 flex-1">
+					<div class="card-body h-full p-5">
 						<div>Network Usage:</div>
 						<div class="flex-1 text-3xl font-extrabold">
 							{#if data.networkUsage === null}
@@ -398,28 +463,9 @@
 
 				<div class="card bg-base-300 flex-1">
 					<div class="card-body h-full p-5">
-						<div>Network Latency:</div>
-						<div class="flex-1 text-3xl font-extrabold">
-							{#if data.networkLatency === null}
-								<div class="flex items-center gap-2">
-									<div class="animate-pulse text-base sm:text-lg">
-										Pinging endpoints and averaging speed...
-									</div>
-								</div>
-							{:else}
-								<div class="text-3xl sm:text-5xl">
-									{data.networkLatency}
-								</div>
-							{/if}
-						</div>
-					</div>
-				</div>
-
-				<div class="card bg-base-300 flex-1">
-					<div class="card-body h-full p-5">
 						<div>Open Ports:</div>
 						{#if data.networkPorts === null}
-							<div class="loading loading-spinner loading-md"></div>
+							<div class="animate-pulse text-lg">Averaging ping speed...</div>
 						{:else}
 							<div class="flex flex-1 flex-col">
 								{#each data.networkPorts as port}
