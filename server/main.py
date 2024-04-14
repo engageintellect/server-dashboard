@@ -54,7 +54,7 @@ def get_disk_usage():
 
 @app.get("/api/load")
 def get_load():
-    load = requests.get(f'http://engage-dev.com:4322/api/3/load')
+    load = requests.get(f'{GLANCES_ENDPOINT}/load')
     return load.json()
 
 

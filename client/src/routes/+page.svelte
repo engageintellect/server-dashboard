@@ -148,7 +148,7 @@
 				<div class="card bg-base-300 flex-1">
 					<div class="card-body h-full p-5">
 						<div>Host:</div>
-						<div class="flex-1 text-3xl font-extrabold">
+						<div class="flex-1 text-3xl font-extrabold sm:text-5xl">
 							{#if data.hostname === null}
 								<div class="loading loading-spinner loading-md"></div>
 							{:else}
@@ -163,7 +163,7 @@
 						<div>OS:</div>
 						<div class="flex-1 text-sm font-extrabold sm:text-2xl">
 							{#if data.os === null}
-								<div class="loading loading-spinner loading-md"></div>
+								<div class="animate-pulse text-base sm:text-lg">Calculating OS...</div>
 							{:else}
 								{data.os}
 							{/if}
@@ -345,13 +345,50 @@
 							{:else}
 								<div class="flex flex-col gap-2 text-2xl">
 									<div>
-										<div class="text-base font-thin lowercase">Received:</div>
-										{data.networkUsage.received} MB
+										<div class="text-base font-thin lowercase">Sent:</div>
+
+										<div class="flex items-center gap-2">
+											<div class="text-primary-content bg-primary rounded-full text-4xl">
+												<svg
+													xmlns="http://www.w3.org/2000/svg"
+													width="1.5rem"
+													height="1.5rem"
+													viewBox="0 0 24 24"
+													{...$$props}
+													><path
+														fill="currentColor"
+														d="M11 18V9.825L7.4 13.4L6 12l6-6l6 6l-1.4 1.4L13 9.825V18h-2Z"
+													/></svg
+												>
+											</div>
+
+											<div>
+												{data.networkUsage.sent} MB
+											</div>
+										</div>
 									</div>
 
 									<div>
-										<div class="text-base font-thin lowercase">Sent:</div>
-										{data.networkUsage.sent} MB
+										<div class="text-base font-thin lowercase">Received:</div>
+
+										<div class="flex items-center gap-2">
+											<div class="text-primary-content bg-primary rounded-full text-4xl">
+												<svg
+													xmlns="http://www.w3.org/2000/svg"
+													width="1.5rem"
+													height="1.5rem"
+													viewBox="0 0 24 24"
+													{...$$props}
+													><path
+														fill="currentColor"
+														d="m12 18l-6-6l1.4-1.4l3.6 3.575V6h2v8.175l3.6-3.575L18 12l-6 6Z"
+													/></svg
+												>
+											</div>
+											<div>
+												{data.networkUsage.received} MB
+											</div>
+										</div>
 									</div>
 								</div>
 							{/if}
@@ -370,7 +407,9 @@
 									</div>
 								</div>
 							{:else}
-								{data.networkLatency}
+								<div class="text-3xl sm:text-5xl">
+									{data.networkLatency}
+								</div>
 							{/if}
 						</div>
 					</div>
