@@ -25,7 +25,7 @@ def get_os():
 
 @app.get("/api/uptime")
 def get_uptime():
-    return subprocess.getoutput("uptime -p | sed 's/up //'")
+    return subprocess.getoutput("uptime -p | sed 's/up //'").split(',')
 
 
 @app.get("/api/memory/used")

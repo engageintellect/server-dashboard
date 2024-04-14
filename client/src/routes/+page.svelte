@@ -185,7 +185,10 @@
 				<div class="flex w-full gap-2">
 					<div class="card bg-primary text-primary-content w-full flex-1">
 						<div class="card-body h-full p-5">
-							<div>Memory Used:</div>
+							<div class="flex items-center gap-2">
+								<Icon icon="bi-memory" class="h-5 w-5" />
+								<div>RAM Usage:</div>
+							</div>
 							<div class="flex-1 text-3xl font-extrabold">
 								{#if data.memoryUsed === null}
 									<div class="animate-pulse text-base sm:text-lg">Calculating Memory...</div>
@@ -198,7 +201,11 @@
 
 					<div class="card bg-primary text-primary-content w-full flex-1">
 						<div class="card-body h-full p-5">
-							<div>Memory Available:</div>
+							<div class="flex items-center gap-2">
+								<Icon icon="bi-memory" class="h-5 w-5" />
+								<div>RAM Free:</div>
+							</div>
+
 							<div class="flex-1 text-3xl font-extrabold">
 								{#if data.memoryAvailable === null}
 									<div class="animate m:text-lg text-base">Calculating Memory...</div>
@@ -218,7 +225,11 @@
 				<div class="flex w-full gap-2">
 					<div class="card bg-primary text-primary-content w-full flex-1">
 						<div class="card-body h-full p-5">
-							<div>CPU Usage:</div>
+							<div class="flex items-center gap-2">
+								<Icon icon="bi-cpu" class="h-5 w-5" />
+								<div>CPU Usage</div>
+							</div>
+
 							<div class="flex-1 text-3xl font-extrabold">
 								{#if data.cpuUsage === null}
 									<div class="animate-pulse text-base sm:text-lg">Calculating CPU usage...</div>
@@ -231,7 +242,11 @@
 
 					<div class="card bg-primary text-primary-content w-full flex-1">
 						<div class="card-body h-full p-5">
-							<div>Disk Usage:</div>
+							<div class="flex items-center gap-2">
+								<Icon icon="ph-hard-drives" class="h-5 w-5" />
+								<div>Disk Usage</div>
+							</div>
+
 							<div class="flex-1 text-3xl font-extrabold">
 								{#if data.diskUsage === null}
 									<div class="animate-pulse text-base sm:text-lg">Calculating disk usage...</div>
