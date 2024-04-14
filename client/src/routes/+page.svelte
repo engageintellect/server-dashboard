@@ -71,6 +71,7 @@
 
 	onMount(() => {
 		fetchDataForAllKeys(); // Initial fetch
+		console.log('UPTIME', data.uptime);
 
 		// Establish WebSocket connection after 5 seconds
 		setTimeout(() => {
@@ -171,7 +172,7 @@
 						<div>Uptime:</div>
 						<div class="flex-1 text-sm font-extrabold sm:text-lg">
 							{#if data.uptime === null}
-								<div class="loading loading-spinner loading-md"></div>
+								<div class="animate-pulse text-base sm:text-lg">Calculating Uptime...</div>
 							{:else}
 								{data.uptime}
 							{/if}
@@ -259,39 +260,40 @@
 									</div>
 
 									{#if data.updates > 0}
-										<button on:click={handleShowUpdates} class="btn btn-primary w-full">
+										<div class="bg-primary text-primary-content collapse-arrow collapse">
+											<input
+												transition:fade={{ delay: 0, duration: 500 }}
+												type="checkbox"
+												id="collapseCheckbox"
+												class="toggle w-full"
+												bind:checked={showUpdates}
+											/>
+											<div class="collapse-title text-lg font-medium">
+												<label for="collapseCheckbox w-full">
+													{#if showUpdates}
+														Hide Updates
+													{:else}
+														Show Updates
+													{/if}
+												</label>
+											</div>
 											{#if showUpdates}
-												<div class="flex items-center gap-2">
-													<div>Hide Updates</div>
-													<div>
-														<Icon icon="bi-chevron-up" class="h-4 w-4" />
-													</div>
-												</div>
-											{:else}
-												<div class="flex items-center gap-2">
-													<div>Show Updates</div>
-
-													<div>
-														<Icon icon="bi-chevron-down" class="h-4 w-4" />
+												<div class="collapse-content">
+													<div transition:slide={{ delay: 0, duration: 100 }} class="text-sm">
+														<ul class="">
+															{#each data.updatablePackages as pkg}
+																<li class="flex items-start gap-2">
+																	<Icon icon="bi-dash-lg" class="h-4 w-4" />
+																	<div class="font-medium">
+																		{pkg}
+																	</div>
+																</li>
+															{/each}
+														</ul>
 													</div>
 												</div>
 											{/if}
-										</button>
-
-										{#if showUpdates}
-											<div transition:slide={{ delay: 0, duration: 100 }} class="text-sm">
-												<ul class="pt-2">
-													{#each data.updatablePackages as pkg}
-														<li class="flex items-start gap-2">
-															<Icon icon="bi-dash-lg" class="h-4 w-4" />
-															<div class="font-medium">
-																{pkg}
-															</div>
-														</li>
-													{/each}
-												</ul>
-											</div>
-										{/if}
+										</div>
 									{/if}
 								</div>
 							{/if}
@@ -376,7 +378,7 @@
 					{#if data.runningProcesses == null}
 						<div class="loading loading-spinner loading-md"></div>
 					{:else}
-						<table class="w-full table-auto">
+						<table class="table-sm table w-full table-auto">
 							<thead>
 								<tr>
 									<th class="text-left text-lg">Name</th>
