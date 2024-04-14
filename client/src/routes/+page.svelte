@@ -409,20 +409,20 @@
 					{#if data.runningProcesses == null}
 						<div class="loading loading-spinner loading-md"></div>
 					{:else}
-						<table class="table-sm table w-full table-auto">
+						<table class=" w-full table-auto">
 							<thead>
 								<tr>
-									<th class="text-left text-lg">Name</th>
-									<th class="text-left text-lg">User</th>
-									<th class="text-left text-lg">Mem</th>
+									<th class="text-left text-base">Name</th>
+									<th class="text-left text-base">User</th>
+									<th class="text-left text-base">Mem</th>
 								</tr>
 							</thead>
 							<tbody>
 								{#each data.runningProcesses.filter((process: { memory_percent: number; }) => process.memory_percent > 0).sort((a:any, b:any) => b.memory_percent - a.memory_percent) as process}
 									<tr>
-										<td class="text-lg font-thin">{process.name}</td>
-										<td class="text-lg font-thin">{process.username}</td>
-										<td class="text-lg font-thin">{process.memory_percent.toFixed(2)}%</td>
+										<td class="text-base font-thin">{process.name}</td>
+										<td class="text-base font-thin">{process.username}</td>
+										<td class="text-base font-thin">{process.memory_percent.toFixed(2)}%</td>
 									</tr>
 								{/each}
 							</tbody>
