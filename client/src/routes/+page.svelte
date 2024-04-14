@@ -126,7 +126,7 @@
 	};
 
 	function convertFloatToPercentage(floatNumber: number): string {
-		return `${(floatNumber * 100).toFixed(2)}%`;
+		return `${(floatNumber * 100).toFixed(2)}`;
 	}
 </script>
 
@@ -355,26 +355,51 @@
 									<tbody>
 										<tr>
 											<td>CPU Cores</td>
-											<td>{data.systemLoad.cpucore}</td>
+											<td>
+												{data.systemLoad.cpucore}
+											</td>
 										</tr>
 										<tr>
 											<td>Min 1</td>
-											<td>{convertFloatToPercentage(data.systemLoad.min1)}</td>
+											<td class="flex items-center gap-2"
+												>{convertFloatToPercentage(data.systemLoad.min1)}%</td
+											>
+											<td>
+												<progress
+													class="progress progress-primary w-full"
+													value={convertFloatToPercentage(data.systemLoad.min1)}
+													max="100"
+												/>
+											</td>
 										</tr>
 										<tr>
 											<td>Min 5</td>
-											<td>{convertFloatToPercentage(data.systemLoad.min5)}</td>
+											<td>{convertFloatToPercentage(data.systemLoad.min5)}%</td>
+
+											<td>
+												<progress
+													class="progress progress-primary w-full"
+													value={convertFloatToPercentage(data.systemLoad.min5)}
+													max="100"
+												/>
+											</td>
 										</tr>
 										<tr>
 											<td>Min 15</td>
-											<td>{convertFloatToPercentage(data.systemLoad.min15)}</td>
+											<td>{convertFloatToPercentage(data.systemLoad.min15)}%</td>
+
+											<td>
+												<progress
+													class="progress progress-primary w-full"
+													value={convertFloatToPercentage(data.systemLoad.min15)}
+													max="100"
+												/>
+											</td>
 										</tr>
 									</tbody>
 								</table>
 							{:else}
-								<div class="animate-pulse text-base sm:text-lg">
-									Pinging endpoints and averaging speed...
-								</div>
+								<div class="animate-pulse text-base sm:text-lg">Calculating system load...</div>
 							{/if}
 						</div>
 					</div>
