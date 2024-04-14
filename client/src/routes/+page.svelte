@@ -126,6 +126,10 @@
 	};
 </script>
 
+<svelte:head>
+	<title>Server Dashboard</title>
+</svelte:head>
+
 {#if data.hostname === null}
 	<div class="mx-auto min-h-screen max-w-5xl p-2 sm:p-5">
 		<div role="alert" class="alert shadow-lg">
