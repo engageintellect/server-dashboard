@@ -292,9 +292,19 @@
 											<div class="collapse-title text-lg font-medium">
 												<label for="collapseCheckbox w-full">
 													{#if showUpdates}
-														Hide Updates
+														<div class="flex items-center gap-2">
+															<Icon
+																icon={data.updates > 1 ? 'tabler-packages' : 'tabler-package'}
+																class="h-7 w-7"
+															/>
+
+															<div>Hide Updates</div>
+														</div>
 													{:else}
-														Show Updates
+														<div class="flex items-center gap-2">
+															<Icon icon="tabler-package" class="h-7 w-7" />
+															<div>Show Updates</div>
+														</div>
 													{/if}
 												</label>
 											</div>
