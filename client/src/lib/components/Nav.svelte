@@ -24,8 +24,8 @@
 	}
 </script>
 
-<div class="sticky top-0 -z-[-1] bg-base-300 shadow">
-	<div class="navbar mx-auto flex max-w-5xl justify-between gap-2 bg-base-300">
+<div class="bg-base-300 sticky top-0 -z-[-1] shadow">
+	<div class="navbar bg-base-300 mx-auto flex max-w-5xl justify-between gap-2">
 		<div class="">
 			<a href="/" class="btn btn-primary flex items-center text-xl">
 				<Icon icon="mdi-server" class="h-7 w-7" />
@@ -46,32 +46,27 @@
 		<!-- </div> -->
 		<!-- </div> -->
 
-
-
 		<div class="">
 			<div class="dropdown dropdown-end">
 				<div tabindex="0" role="button">
-
-		<div class="lg:tooltip lg:tooltip-left" data-tip="Theme Selector">
-			<button class="btn btn-ghost">
-						<div class="font-normal lowercase">
-							<Icon icon="gridicons-themes" class="h-7 w-7" />
-						</div>
-			</button>
-		</div>
-
-
+					<div class="lg:tooltip lg:tooltip-left" data-tip="Theme Selector">
+						<button class="btn btn-ghost">
+							<div class="font-normal lowercase">
+								<Icon icon="gridicons-themes" class="h-7 w-7" />
+							</div>
+						</button>
+					</div>
 				</div>
 				<ul
 					tabindex="-1"
-					class="dropdown-content dropdown-end -z-[-1] mt-3 h-96 w-52 overflow-auto rounded-box border border-primary bg-base-100 p-2 shadow"
+					class="dropdown-content dropdown-end rounded-box border-primary bg-base-100 -z-[-1] mt-3 h-96 w-52 overflow-auto border p-2 shadow"
 				>
 					{#each themes.sort() as theme}
 						<li>
 							<input
 								type="radio"
 								name="theme-dropdown"
-								class="theme-controller btn btn-ghost btn-sm btn-block justify-start font-thin"
+								class="theme-controller btn btn-ghost btn-sm btn-block justify-start font-medium"
 								aria-label={theme}
 								value={theme}
 								on:change={handleThemeChange}
