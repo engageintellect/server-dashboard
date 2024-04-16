@@ -54,7 +54,7 @@
 		cpuUsage: null,
 		diskUsage: null,
 		systemLoad: null,
-		packageCount: null,
+		packageCount: 0,
 		runningProcesses: null,
 		updates: null,
 		updatablePackages: null,
@@ -290,17 +290,19 @@
 			<div class="flex flex-col gap-2 sm:grid sm:grid-cols-2">
 				<div class="card bg-base-300 flex-1">
 					<div class="card-body h-full p-5">
-						<div>
-							<div>Installed Packages:</div>
-							<div>Available Updates:</div>
-							<div class="flex-1 text-3xl font-extrabold">
-								{#if data.packageCount === null}
-									<div class="animate-pulse text-base sm:text-lg">Fetching package count...</div>
-								{:else}
-									<div class="text-3xl">{data.packageCount || 'fetching count...'}</div>
-								{/if}
-							</div>
+						<div>Installed Packages</div>
+						<div class="flex-1 text-3xl font-extrabold">
+							{#if data.updates === null}
+								<div class="animate-pulse text-base sm:text-lg">Fetching package count...</div>
+							{:else}
+								<div class="flex h-full flex-col justify-between gap-2">
+									<div class="pb-2 text-5xl">
+										{data.packageCount}
+									</div>
+								</div>
+							{/if}
 						</div>
+
 						<div>Available Updates:</div>
 						<div class="flex-1 text-3xl font-extrabold">
 							{#if data.updates === null}
@@ -443,65 +445,6 @@
 						</div>
 					</div>
 				</div>
-
-				<!-- <div class="card bg-base-300 flex-1">
-					<div class="card-body h-full p-5">
-						<div>System Load:</div>
-						<div>
-							{#if data.systemLoad}
-								<table class="w-full table-fixed font-semibold">
-									<tbody>
-										<tr>
-											<td>CPU Cores</td>
-											<td>
-												{data.systemLoad.cpucore}
-											</td>
-										</tr>
-										<tr>
-											<td>Min 1</td>
-											<td class="flex items-center gap-2"
-												>{convertFloatToPercentage(data.systemLoad.min1)}%</td
-											>
-											<td>
-												<progress
-													class="progress progress-primary w-full"
-													value={convertFloatToPercentage(data.systemLoad.min1)}
-													max="100"
-												/>
-											</td>
-										</tr>
-										<tr>
-											<td>Min 5</td>
-											<td>{convertFloatToPercentage(data.systemLoad.min5)}%</td>
-
-											<td>
-												<progress
-													class="progress progress-primary w-full"
-													value={convertFloatToPercentage(data.systemLoad.min5)}
-													max="100"
-												/>
-											</td>
-										</tr>
-										<tr>
-											<td>Min 15</td>
-											<td>{convertFloatToPercentage(data.systemLoad.min15)}%</td>
-
-											<td>
-												<progress
-													class="progress progress-primary w-full"
-													value={convertFloatToPercentage(data.systemLoad.min15)}
-													max="100"
-												/>
-											</td>
-										</tr>
-									</tbody>
-								</table>
-							{:else}
-								<div class="animate-pulse text-base sm:text-lg">Calculating system load...</div>
-							{/if}
-						</div>
-					</div>
-				</div> -->
 			</div>
 
 			<div class="grid grid-cols-1 gap-2 md:grid-cols-3">
