@@ -4,7 +4,6 @@ from fastapi import FastAPI, WebSocket
 import subprocess
 import uvicorn
 import asyncio
-import os
 import requests
 
 
@@ -48,8 +47,6 @@ def get_disk_usage():
     return subprocess.getoutput("df / | awk 'NR==2 { printf(\"%.2f\\n\", $5) }'")
     # disk_usage = requests.get(f'http://engage-dev.com:4322/api/3/fs')
     # return disk_usage.json()
-
-# EXPERIMENTAL
 
 
 @app.get("/api/load")
