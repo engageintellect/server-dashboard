@@ -290,7 +290,17 @@
 			<div class="flex flex-col gap-2 sm:grid sm:grid-cols-2">
 				<div class="card bg-base-300 flex-1">
 					<div class="card-body h-full p-5">
-						<div>Installed Packages: <span>{data.packageCount}</span></div>
+						<div>
+							<div>Installed Packages:</div>
+							<div>Available Updates:</div>
+							<div class="flex-1 text-3xl font-extrabold">
+								{#if data.packageCount === null}
+									<div class="animate-pulse text-base sm:text-lg">Fetching package count...</div>
+								{:else}
+									<div class="text-3xl">{data.packageCount || 'fetching count...'}</div>
+								{/if}
+							</div>
+						</div>
 						<div>Available Updates:</div>
 						<div class="flex-1 text-3xl font-extrabold">
 							{#if data.updates === null}
