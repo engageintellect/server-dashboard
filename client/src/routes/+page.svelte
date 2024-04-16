@@ -17,6 +17,7 @@
 		| 'cpuUsage'
 		| 'diskUsage'
 		| 'systemLoad'
+		| 'packageCount'
 		| 'runningProcesses'
 		| 'updates'
 		| 'updatablePackages'
@@ -34,6 +35,7 @@
 		cpuUsage: '/api/cpu/usage',
 		diskUsage: '/api/disk/usage',
 		systemLoad: '/api/load',
+		packageCount: '/api/package-count',
 		runningProcesses: '/api/processes',
 		updates: '/api/updates',
 		updatablePackages: '/api/updatable-packages',
@@ -52,6 +54,7 @@
 		cpuUsage: null,
 		diskUsage: null,
 		systemLoad: null,
+		packageCount: null,
 		runningProcesses: null,
 		updates: null,
 		updatablePackages: null,
@@ -287,6 +290,7 @@
 			<div class="flex flex-col gap-2 sm:grid sm:grid-cols-2">
 				<div class="card bg-base-300 flex-1">
 					<div class="card-body h-full p-5">
+						<div>Installed Packages: <span>{data.packageCount}</span></div>
 						<div>Available Updates:</div>
 						<div class="flex-1 text-3xl font-extrabold">
 							{#if data.updates === null}

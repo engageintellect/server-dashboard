@@ -55,6 +55,12 @@ def get_load():
     return load.json()
 
 
+@app.get("/api/package-count")
+def get_package_count(interface="eth0"):
+    command = "neofetch | grep Packages | awk '{print $2}'"
+    return subprocess.getoutput(command)
+
+
 @app.get("/api/updates")
 def get_network_usage(interface="eth0"):
     command = f"sudo apt update > /dev/null 2>&1 && apt list --upgradable 2>/dev/null | grep -v Listing | wc -l"
@@ -127,6 +133,7 @@ async def websocket_endpoint(websocket: WebSocket):
                 "cpuUsage": get_cpu_usage(),
                 "diskUsage": get_disk_usage(),
                 "systemLoad": get_load(),
+                "packageCount": get_package_count(),
                 "systemProcesses": get_running_processes(),
                 "networkUsage": get_network_usage(),
                 "networkLatency": get_network_latency(),
