@@ -137,7 +137,7 @@ async def websocket_endpoint(websocket: WebSocket):
                 "runningServices": get_running_services(),
             }
             await websocket.send_json(data)
-            await asyncio.sleep(3)  # Send updated data every 5 seconds
+            await asyncio.sleep(1)  # Send updated data every 5 seconds
     except Exception as e:
         print(f"WebSocket connection error: {e}")
     finally:

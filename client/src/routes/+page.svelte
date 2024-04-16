@@ -4,6 +4,7 @@
 	import { onMount, onDestroy } from 'svelte';
 	import { slide, fade } from 'svelte/transition';
 	import Icon from '@iconify/svelte';
+	import robotImage from '$lib/assets/images/robot14-nobg.png';
 
 	let ws: WebSocket;
 
@@ -156,7 +157,17 @@
 							{#if data.hostname === null}
 								<div class="loading loading-spinner loading-md"></div>
 							{:else}
-								{data.hostname}
+								<div class="flex items-center gap-2">
+									<div class="avatar online hidden lg:flex">
+										<div class="bg-primary w-16 rounded-full">
+											<img src={robotImage} alt="avatar" />
+										</div>
+									</div>
+
+									<div>
+										{data.hostname}
+									</div>
+								</div>
 							{/if}
 						</div>
 					</div>
@@ -280,7 +291,7 @@
 						<div class="flex-1 text-3xl font-extrabold">
 							{#if data.updates === null}
 								<div class="animate-pulse text-base sm:text-lg">
-									Calculating available updates...
+									Checking for available updates...
 								</div>
 							{:else}
 								<div class="flex h-full flex-col justify-between gap-2">
@@ -306,12 +317,12 @@
 																class="h-7 w-7"
 															/>
 
-															<div>Hide Updates</div>
+															<div>Hide Packages</div>
 														</div>
 													{:else}
 														<div class="flex items-center gap-2">
 															<Icon icon="tabler-package" class="h-7 w-7" />
-															<div>Show Updates</div>
+															<div>Show Packages</div>
 														</div>
 													{/if}
 												</label>
@@ -363,11 +374,15 @@
 											</div>
 										</div>
 
-										<progress
-											class="progress progress-primary w-full"
-											value={convertFloatToPercentage(data.systemLoad.min1)}
-											max="100"
-										/>
+										{#if data.systemLoad.min1 > 0}
+											<progress
+												class="progress progress-primary w-full"
+												value={convertFloatToPercentage(data.systemLoad.min1)}
+												max="100"
+											/>
+										{:else}
+											<progress class="progress w-full"></progress>
+										{/if}
 									</div>
 
 									<div>
@@ -378,11 +393,15 @@
 											</div>
 										</div>
 
-										<progress
-											class="progress progress-primary w-full"
-											value={convertFloatToPercentage(data.systemLoad.min5)}
-											max="100"
-										/>
+										{#if data.systemLoad.min5 > 0}
+											<progress
+												class="progress progress-primary w-full"
+												value={convertFloatToPercentage(data.systemLoad.min5)}
+												max="100"
+											/>
+										{:else}
+											<progress class="progress w-full"></progress>
+										{/if}
 									</div>
 
 									<div>
@@ -393,13 +412,19 @@
 											</div>
 										</div>
 
-										<progress
-											class="progress progress-primary w-full"
-											value={convertFloatToPercentage(data.systemLoad.min15)}
-											max="100"
-										/>
+										{#if data.systemLoad.min15 > 0}
+											<progress
+												class="progress progress-primary w-full"
+												value={convertFloatToPercentage(data.systemLoad.min15)}
+												max="100"
+											/>
+										{:else}
+											<progress class="progress w-full"></progress>
+										{/if}
 									</div>
 								</div>
+							{:else}
+								<div class="animate-pulse text-lg">Calculating network usage...</div>
 							{/if}
 						</div>
 					</div>
