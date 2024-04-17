@@ -56,7 +56,7 @@ def get_load():
 
 
 @app.get("/api/package-count")
-def get_package_count(interface="eth0"):
+def get_package_count():
     command = "neofetch | grep Packages | awk '{print $2}'"
     return subprocess.getoutput(command)
 
@@ -65,7 +65,6 @@ def get_package_count(interface="eth0"):
 def get_network_usage(interface="eth0"):
     command = f"sudo apt update > /dev/null 2>&1 && apt list --upgradable 2>/dev/null | grep -v Listing | wc -l"
     return subprocess.getoutput(command)
-
 
 @app.get("/api/updatable-packages")
 def get_updatable_packages():
@@ -80,10 +79,8 @@ def get_updatable_packages():
 
 @app.get("/api/network/usage")
 def get_network_usage(interface="eth0"):
-    received_command = f"ifconfig {
-        interface} | grep 'RX packets' | awk '{{printf \"%.2f\\n\", $5/1024/1024}}'"
-    sent_command = f"ifconfig {
-        interface} | grep 'TX packets' | awk '{{printf \"%.2f\\n\", $5/1024/1024}}'"
+    received_command = f"ifconfig {interface} | grep 'RX packets' | awk '{{printf \"%.2f\\n\", $5/1024/1024}}'"
+    sent_command = f"ifconfig {interface} | grep 'TX packets' | awk '{{printf \"%.2f\\n\", $5/1024/1024}}'"
 
     received = subprocess.getoutput(received_command)
     sent = subprocess.getoutput(sent_command)
