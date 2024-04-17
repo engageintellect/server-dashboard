@@ -54,7 +54,7 @@
 		cpuUsage: null,
 		diskUsage: null,
 		systemLoad: null,
-		packageCount: 0,
+		packageCount: null,
 		runningProcesses: null,
 		updates: null,
 		updatablePackages: [],
@@ -292,7 +292,7 @@
 					<div class="card-body h-full p-5">
 						<div>Installed Packages</div>
 						<div class="flex-1 text-3xl font-extrabold">
-							{#if data.updates === null}
+							{#if data.packageCount.message === 'Internal Error'}
 								<div class="animate-pulse text-base sm:text-lg">Fetching package count...</div>
 							{:else}
 								<div class="flex h-full flex-col justify-between gap-2">
