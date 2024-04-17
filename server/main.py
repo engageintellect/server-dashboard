@@ -81,10 +81,8 @@ def get_upgradable_packages():
 
 @app.get("/api/network/usage")
 def get_network_usage(interface="eth0"):
-    received_command = f"ifconfig {
-        interface} | grep 'RX packets' | awk '{{printf \"%.2f\\n\", $5/1024/1024}}'"
-    sent_command = f"ifconfig {
-        interface} | grep 'TX packets' | awk '{{printf \"%.2f\\n\", $5/1024/1024}}'"
+    received_command = f"ifconfig {interface} | grep 'RX packets' | awk '{{printf \"%.2f\\n\", $5/1024/1024}}'"
+    sent_command = f"ifconfig {interface} | grep 'TX packets' | awk '{{printf \"%.2f\\n\", $5/1024/1024}}'"
 
     received = subprocess.getoutput(received_command)
     sent = subprocess.getoutput(sent_command)
