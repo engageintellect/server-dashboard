@@ -57,7 +57,7 @@
 		packageCount: 0,
 		runningProcesses: null,
 		updates: null,
-		updatablePackages: null,
+		updatablePackages: [],
 		networkUsage: null,
 		networkLatency: null,
 		networkPorts: null,
@@ -301,6 +301,9 @@
 									</div>
 								</div>
 							{/if}
+						</div>
+						<div class="-z-[-1]">
+							{JSON.stringify(data)}
 						</div>
 
 						<div>Available Updates:</div>

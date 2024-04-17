@@ -75,6 +75,8 @@ def get_upgradable_packages():
     upgradable_packages = [line for line in output.split(
         '\n') if 'upgradable from' in line]
     package_list = [line.split()[0] for line in upgradable_packages]
+    print('helloooooooooooooooooooooooooooooooooooooooooo')
+    print(package_list)
 
     return package_list
 
