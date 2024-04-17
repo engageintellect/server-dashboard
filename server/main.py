@@ -83,7 +83,7 @@ def get_updatable_packages():
     print('helloooooooooooooooooooooooooooooooooooooooooo')
     print(output)
 
-    return package_list
+    return output
 
 
 @app.get("/api/network/usage")
