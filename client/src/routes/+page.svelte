@@ -377,7 +377,7 @@
 									<div class="flex w-full justify-between">
 										<div class="flex items-center gap-2">
 											<div>CPU Cores:</div>
-											<div class="badge badge-primary">{data.systemLoad.cpucore}</div>
+											<div class="badge badge-primary text-xl">{data.systemLoad.cpucore}</div>
 										</div>
 										<!-- <div class="">{data.systemLoad.cpucore}</div> -->
 									</div>
