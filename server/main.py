@@ -74,6 +74,7 @@ def get_updatable_packages():
     command="apt list --upgradable 2>/dev/null | grep -vE 'Listing...|Done' | awk -F/ '{print \$1}'"
 
 
+
     output = subprocess.getoutput(command)
     # upgradable_packages = [line for line in output.split(
         # '\n') if 'upgradable from' in line]
