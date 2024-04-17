@@ -303,7 +303,7 @@
 							{/if}
 						</div>
 						<div class="-z-[-1]">
-							{JSON.stringify(data)}
+							{JSON.stringify(data.updatablePackages)}
 						</div>
 
 						<div>Available Updates:</div>

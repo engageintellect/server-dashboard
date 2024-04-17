@@ -136,6 +136,7 @@ async def websocket_endpoint(websocket: WebSocket):
                 "diskUsage": get_disk_usage(),
                 "systemLoad": get_load(),
                 "packageCount": get_package_count(),
+                "updatablePackages": get_upgradable_packages(),
                 "systemProcesses": get_running_processes(),
                 "networkUsage": get_network_usage(),
                 "networkLatency": get_network_latency(),
