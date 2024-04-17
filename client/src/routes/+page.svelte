@@ -302,9 +302,6 @@
 								</div>
 							{/if}
 						</div>
-						<div class="-z-[-1]">
-							{JSON.stringify(data.updatablePackages)}
-						</div>
 
 						<div>Available Updates:</div>
 						<div class="flex-1 text-3xl font-extrabold">
@@ -394,17 +391,79 @@
 										</div>
 
 										{#if data.systemLoad.min1 > 0}
-											<progress
-												class="progress progress-primary w-full"
-												value={convertFloatToPercentage(data.systemLoad.min1)}
-												max="100"
-											/>
+											{#if data.systemLoad.min1 > 1}
+												<progress
+													class="progress progress-error w-full"
+													value={convertFloatToPercentage(data.systemLoad.min1)}
+													max="100"
+												/>
+											{:else}
+												<progress
+													class="progress progress-primary w-full"
+													value={convertFloatToPercentage(data.systemLoad.min1)}
+													max="100"
+												/>
+											{/if}
 										{:else}
 											<progress class="progress w-full"></progress>
 										{/if}
 									</div>
 
 									<div>
+										<div class="flex w-full justify-between">
+											<div class="">Min 5</div>
+											<div class="">
+												{convertFloatToPercentage(data.systemLoad.min5)}%
+											</div>
+										</div>
+
+										{#if data.systemLoad.min5 > 0}
+											{#if data.systemLoad.min5 > 1}
+												<progress
+													class="progress progress-error w-full"
+													value={convertFloatToPercentage(data.systemLoad.min5)}
+													max="100"
+												/>
+											{:else}
+												<progress
+													class="progress progress-primary w-full"
+													value={convertFloatToPercentage(data.systemLoad.min5)}
+													max="100"
+												/>
+											{/if}
+										{:else}
+											<progress class="progress w-full"></progress>
+										{/if}
+									</div>
+
+									<div>
+										<div class="flex w-full justify-between">
+											<div class="">Min 15</div>
+											<div class="">
+												{convertFloatToPercentage(data.systemLoad.min15)}%
+											</div>
+										</div>
+
+										{#if data.systemLoad.min15 > 0}
+											{#if data.systemLoad.min15 > 1}
+												<progress
+													class="progress progress-error w-full"
+													value={convertFloatToPercentage(data.systemLoad.min15)}
+													max="100"
+												/>
+											{:else}
+												<progress
+													class="progress progress-primary w-full"
+													value={convertFloatToPercentage(data.systemLoad.min15)}
+													max="100"
+												/>
+											{/if}
+										{:else}
+											<progress class="progress w-full"></progress>
+										{/if}
+									</div>
+
+									<!-- <div>
 										<div class="flex w-full justify-between">
 											<div class="">Min 5</div>
 											<div class="">
@@ -440,7 +499,7 @@
 										{:else}
 											<progress class="progress w-full"></progress>
 										{/if}
-									</div>
+									</div> -->
 								</div>
 							{:else}
 								<div class="animate-pulse text-lg">Calculating network usage...</div>

@@ -70,15 +70,10 @@ def get_network_usage(interface="eth0"):
 def get_updatable_packages():
     # Redirect stderr to /dev/null to hide warnings
     command = 'apt list --upgradable 2>/dev/null'
-
-
     output = subprocess.getoutput(command)
     upgradable_packages = [line for line in output.split(
         '\n') if 'upgradable from' in line]
     package_list = [line.split()[0] for line in upgradable_packages]
-    print('helloooooooooooooooooooooooooooooooooooooooooo')
-    print(package_list)
-
     return package_list
 
 
