@@ -67,16 +67,19 @@ def get_network_usage(interface="eth0"):
     return subprocess.getoutput(command)
 
 
-@app.get("/api/updatable-packages")
 def get_updatable_packages():
     # Redirect stderr to /dev/null to hide warnings
-    command = "apt list --upgradable 2>/dev/null | grep -vE 'Listing...|Done' | awk -F/ '{print $1}'"
+    command = 'apt list --upgradable 2>/dev/null'
+
 
     output = subprocess.getoutput(command)
+    upgradable_packages = [line for line in output.split(
+        '\n') if 'upgradable from' in line]
+    package_list = [line.split()[0] for line in upgradable_packages]
     print('helloooooooooooooooooooooooooooooooooooooooooo')
-    print(output)
+    print(package_list)
 
-    return output
+    return package_list
 
 
 @app.get("/api/network/usage")
