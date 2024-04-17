@@ -9,7 +9,7 @@ import requests
 
 app = FastAPI()
 
-GLANCES_ENDPOINT = "http://engage-dev.com/glances/api/3"
+GLANCES_ENDPOINT = "https://engage-dev.com/glances/api/3"
 
 
 @app.get("/api/hostname")
