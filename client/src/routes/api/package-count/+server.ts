@@ -2,7 +2,7 @@ import { SERVER_ENDPOINT } from '$env/static/private';
 import type { RequestHandler } from './$types';
 
 export const GET: RequestHandler = async () => {
-	const res = await fetch(`${SERVER_ENDPOINT}/api/package-count/`);
+	const res = await fetch(`${SERVER_ENDPOINT}/api/package-count`);
 	const data = await res.json();
 	if (!res.ok) {
 		throw new Error(data.message);
