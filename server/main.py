@@ -9,7 +9,7 @@ import requests
 
 app = FastAPI()
 
-GLANCES_ENDPOINT = "http://engage-dev.com:4322/api/3"
+GLANCES_ENDPOINT = "http://engage-dev.com/glances/api/3"
 
 
 @app.get("/api/hostname")
@@ -148,6 +148,6 @@ async def websocket_endpoint(websocket: WebSocket):
         print(f"WebSocket connection closed with: {websocket.client}")
 
 if __name__ == "__main__":
-    # uvicorn.run(app, host='0.0.0.0', port=4321)
-    uvicorn.run("main:app", host="0.0.0.0", port=4321, ssl_keyfile="/etc/letsencrypt/live/engage-dev.com/privkey.pem",
-                ssl_certfile="/etc/letsencrypt/live/engage-dev.com/fullchain.pem")
+    uvicorn.run(app, host='0.0.0.0', port=4321)
+    #uvicorn.run("main:app", host="0.0.0.0", port=4321, ssl_keyfile="/etc/letsencrypt/live/engage-dev.com/privkey.pem",
+    #            ssl_certfile="/etc/letsencrypt/live/engage-dev.com/fullchain.pem")
