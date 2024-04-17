@@ -68,13 +68,15 @@ def get_network_usage(interface="eth0"):
 
 
 @app.get("/api/updatable-packages")
-async def get_upgradable_packages():
+def get_updatable_packages():
     # Redirect stderr to /dev/null to hide warnings
-    command = 'apt list --upgradable 2>/dev/null'
-    output = await subprocess.getoutput(command)
-    upgradable_packages = [line for line in output.split(
-        '\n') if 'upgradable from' in line]
-    package_list = [line.split()[0] for line in upgradable_packages]
+    # command = 'apt list --upgradable 2>/dev/null'
+    command = 'apt list --upgradable 2>/dev/null | grep -vE "Listing...|Done" | awk -F/ '{print $1}'
+'
+    output = subprocess.getoutput(command)
+    # upgradable_packages = [line for line in output.split(
+        # '\n') if 'upgradable from' in line]
+    # package_list = [line.split()[0] for line in upgradable_packages]
     print('helloooooooooooooooooooooooooooooooooooooooooo')
     print(package_list)
 
@@ -136,7 +138,7 @@ async def websocket_endpoint(websocket: WebSocket):
                 "diskUsage": get_disk_usage(),
                 "systemLoad": get_load(),
                 "packageCount": get_package_count(),
-                "updatablePackages": get_upgradable_packages(),
+                "updatablePackages": get_updatable_packages(),
                 "systemProcesses": get_running_processes(),
                 "networkUsage": get_network_usage(),
                 "networkLatency": get_network_latency(),
