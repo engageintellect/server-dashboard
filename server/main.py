@@ -75,6 +75,7 @@ def get_updatable_packages():
 
 
 
+
     output = subprocess.getoutput(command)
     # upgradable_packages = [line for line in output.split(
         # '\n') if 'upgradable from' in line]
