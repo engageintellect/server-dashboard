@@ -66,7 +66,7 @@ def get_network_usage(interface="eth0"):
     command = f"sudo apt update > /dev/null 2>&1 && apt list --upgradable 2>/dev/null | grep -v Listing | wc -l"
     return subprocess.getoutput(command)
 
-
+@app.get("/api/updatable-packages")
 def get_updatable_packages():
     # Redirect stderr to /dev/null to hide warnings
     command = 'apt list --upgradable 2>/dev/null'
