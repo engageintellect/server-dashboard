@@ -64,7 +64,7 @@ def get_load():
         "cpucore": cpucore
     }
 
-    return json.dumps(load_dict, indent=4)
+    return json.dumps(load_dict)
 
 
 @app.get("/api/package-count")
