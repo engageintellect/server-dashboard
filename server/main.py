@@ -118,7 +118,7 @@ def get_running_services():
 @app.get("/api/processes")
 def get_running_processes():
     command = "ps aux --sort=-%mem | head -n 21"
-    result = subprocess.run(shlex.split(command), capture_output=True, text=True)
+    result = subprocess.getoutput(shlex.split(command), capture_output=True, text=True)
     if result.stderr:
         print("Error:", result.stderr)  # Debugging: Check for any errors reported by the subprocess
 
