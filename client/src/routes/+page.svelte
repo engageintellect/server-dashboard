@@ -94,7 +94,7 @@
 			ws.onclose = () => {
 				console.log('WebSocket connection closed');
 			};
-		}, 0); // 5-second delay
+		}, 5000); // 5-second delay
 	});
 
 	onDestroy(() => {
@@ -316,7 +316,10 @@
 									</div>
 
 									{#if data.updates > 0 && data.updatablePackages.length > 0}
-										<div class="bg-primary text-primary-content collapse-arrow collapse">
+										<div
+											in:fade={{ delay: 0, duration: 500 }}
+											class="bg-primary text-primary-content collapse-arrow collapse"
+										>
 											<input
 												transition:fade={{ delay: 0, duration: 500 }}
 												type="checkbox"
@@ -344,7 +347,7 @@
 												</label>
 											</div>
 											{#if showUpdates}
-												<div class="collapse-content">
+												<div in:fade={{ delay: 0, duration: 200 }} class="collapse-content">
 													<div transition:slide={{ delay: 0, duration: 100 }} class="text-sm">
 														<ul class="">
 															{#each data.updatablePackages as pkg}
