@@ -591,24 +591,36 @@
 					{#if data.runningProcesses == null}
 						<div class="loading loading-spinner loading-md"></div>
 					{:else}
-						{JSON.stringify(data.runningProcesses)}
+						<!-- {#each data.runningProcesses as process}
+							{JSON.stringify(process)}
+						{/each} -->
 
-						<!-- <table class=" w-full table-auto">
-							<thead>
-								<tr>
-									<th class="text-left text-base">User</th>
-									<th class="text-left text-base">PID</th>
-								</tr>
-							</thead>
-							<tbody>
-								{#each data.runningProcesses as process}
-									<tr>
-										<td class="text-base font-thin">{process.USER}</td>
-										<td class="text-base font-thin">{process.PID}</td>
-									</tr>
-								{/each}
-							</tbody>
-						</table> -->
+						{#if data.runningProcesses.length > 0}
+							<div class="overflow-x-auto">
+								<table class=" table-sm table w-full">
+									<thead>
+										<tr>
+											<th class="text-left text-base">user</th>
+											<!-- <th class="text-left text-base">pid</th> -->
+											<th class="text-left text-base">mem</th>
+											<th class="text-left text-base">cpu</th>
+											<th class="text-left text-base">command</th>
+										</tr>
+									</thead>
+									<tbody>
+										{#each data.runningProcesses as process}
+											<tr>
+												<td class="text-nowrap text-base font-thin">{process.user}</td>
+												<!-- <td class="text-base font-thin">{process.pid}</td> -->
+												<td class="text-base font-thin">{process.mem}%</td>
+												<td class="text-base font-thin">{process.cpu}%</td>
+												<td class="text-nowrap text-base font-thin">{process.command}</td>
+											</tr>
+										{/each}
+									</tbody>
+								</table>
+							</div>
+						{/if}
 					{/if}
 				</div>
 			</div>

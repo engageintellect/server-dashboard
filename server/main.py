@@ -3,9 +3,7 @@ from fastapi import FastAPI, WebSocket, HTTPException
 import subprocess
 import uvicorn
 import asyncio
-import requests
 import os
-import json
 
 app = FastAPI()
 
@@ -110,20 +108,16 @@ def get_running_services():
 #     return processes.json()
 
 
-
 @app.get("/api/processes")
 def get_running_processes():
     command = "ps aux --sort=-%mem | head -n 21"
     try:
-        # Use subprocess.run to execute the command properly
         result = subprocess.run(command, shell=True, text=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         
-        # Check for errors in execution
         if result.stderr:
             print("Error:", result.stderr)
             raise HTTPException(status_code=500, detail=result.stderr)
 
-        # Parse the output to create a JSON-like structure
         lines = result.stdout.splitlines()
         processes = []
         for line in lines[1:]:  # Skip the header line
