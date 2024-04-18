@@ -127,11 +127,11 @@ async def websocket_endpoint(websocket: WebSocket):
                 "packageCount": get_package_count(),
                 "updates": get_updates(),
                 "updatablePackages": get_updatable_packages(),
-                "systemProcesses": get_running_processes(),
                 "networkUsage": get_network_usage(),
                 "networkLatency": get_network_latency(),
                 "networkPorts": get_open_ports(),
                 "runningServices": get_running_services(),
+                "systemProcesses": get_running_processes(),
             }
             await websocket.send_json(data)
             await asyncio.sleep(5)  # Send updated data every 5 seconds
