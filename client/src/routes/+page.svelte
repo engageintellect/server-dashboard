@@ -317,11 +317,10 @@
 
 									{#if data.updates > 0 && data.updatablePackages.length > 0}
 										<div
-											in:fade={{ delay: 0, duration: 500 }}
+											in:slide={{ delay: 0, duration: 500 }}
 											class="bg-primary text-primary-content collapse-arrow collapse"
 										>
 											<input
-												transition:fade={{ delay: 0, duration: 500 }}
 												type="checkbox"
 												id="collapseCheckbox"
 												class="toggle w-full"
@@ -347,7 +346,7 @@
 												</label>
 											</div>
 											{#if showUpdates}
-												<div in:fade={{ delay: 0, duration: 200 }} class="collapse-content">
+												<div in:fade={{ delay: 0, duration: 500 }} class="collapse-content">
 													<div transition:slide={{ delay: 0, duration: 100 }} class="text-sm">
 														<ul class="">
 															{#each data.updatablePackages as pkg}
