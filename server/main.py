@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-from fastapi import FastAPI, WebSocket
+from fastapi import FastAPI, HTTPException, WebSocket
 import subprocess
 import uvicorn
 import asyncio
@@ -101,7 +101,7 @@ def get_open_ports():
 @app.get("/api/services/running")
 def get_running_services():
     command = "systemctl list-units --type=service --state=running | grep '\.service' | awk '{print $1}'"
-    output = subprocess.getoutput(command)
+    output = subprocess.run(command)
     services = output.split('\n')
     return services
 
@@ -115,33 +115,45 @@ def get_running_services():
 #     return processes
 
 
+
+app = FastAPI()
+
 @app.get("/api/processes")
 def get_running_processes():
     command = "ps aux --sort=-%mem | head -n 21"
-    result = subprocess.getoutput(shlex.split(command), capture_output=True, text=True)
-    if result.stderr:
-        print("Error:", result.stderr)  # Debugging: Check for any errors reported by the subprocess
+    try:
+        # Use subprocess.run to execute the command properly
+        result = subprocess.run(command, shell=True, text=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        
+        # Check for errors in execution
+        if result.stderr:
+            print("Error:", result.stderr)
+            raise HTTPException(status_code=500, detail=result.stderr)
 
-    lines = result.stdout.splitlines()
-    if not lines:
-        print("No output received from command")  # Debugging: Check if there are no lines output
+        # Parse the output to create a JSON-like structure
+        lines = result.stdout.splitlines()
+        processes = []
+        for line in lines[1:]:  # Skip the header line
+            parts = line.split(maxsplit=10)
+            if len(parts) >= 11:
+                process = {
+                    "USER": parts[0],
+                    "PID": parts[1],
+                    "%CPU": parts[2],
+                    "%MEM": parts[3],
+                    "COMMAND": parts[10]  # Assumes the command may include spaces beyond part[10]
+                }
+                processes.append(process)
+        
+        return processes
+    
+    except subprocess.CalledProcessError as e:
+        print("Command failed:", e)
+        raise HTTPException(status_code=500, detail=str(e))
+    except Exception as e:
+        print("Unexpected error:", str(e))
+        raise HTTPException(status_code=500, detail=str(e))
 
-    processes = []
-    for line in lines[1:]:  # Skip the header line
-        parts = line.split(maxsplit=10)  # Split only into necessary parts
-        if len(parts) >= 11:
-            process = {
-                "USER": parts[0],
-                "PID": parts[1],
-                "%CPU": parts[2],
-                "%MEM": parts[3],
-                "COMMAND": parts[10]  # This assumes the command can contain spaces
-            }
-            processes.append(process)
-        else:
-            print("Skipped line due to incorrect split:", line)  # Debugging: Check if any line is not parsed correctly
-
-    return processes
 
 
 
