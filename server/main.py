@@ -114,11 +114,17 @@ def get_running_services():
 #     processes = output.split('\n')
 #     return processes
 
+
 @app.get("/api/processes")
 def get_running_processes():
     command = "ps aux --sort=-%mem | head -n 21"
     result = subprocess.run(shlex.split(command), capture_output=True, text=True)
+    if result.stderr:
+        print("Error:", result.stderr)  # Debugging: Check for any errors reported by the subprocess
+
     lines = result.stdout.splitlines()
+    if not lines:
+        print("No output received from command")  # Debugging: Check if there are no lines output
 
     processes = []
     for line in lines[1:]:  # Skip the header line
@@ -132,8 +138,12 @@ def get_running_processes():
                 "COMMAND": parts[10]  # This assumes the command can contain spaces
             }
             processes.append(process)
+        else:
+            print("Skipped line due to incorrect split:", line)  # Debugging: Check if any line is not parsed correctly
 
     return processes
+
+
 
 @app.websocket("/api/ws")
 async def websocket_endpoint(websocket: WebSocket):
