@@ -114,10 +114,6 @@ def get_running_services():
 #     processes = output.split('\n')
 #     return processes
 
-
-
-app = FastAPI()
-
 @app.get("/api/processes")
 def get_running_processes():
     command = "ps aux --sort=-%mem | head -n 21"
