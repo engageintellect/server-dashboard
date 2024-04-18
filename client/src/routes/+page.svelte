@@ -139,7 +139,7 @@
 </svelte:head>
 
 {#if data.hostname === null}
-	<div class="mx-auto min-h-screen max-w-5xl p-2 sm:p-5">
+	<div class="mx-auto h-full min-h-screen max-w-5xl flex-grow p-2 sm:p-5">
 		<div role="alert" class="alert shadow-lg">
 			<div class="loading loading-spinner loading-lg scale-125"></div>
 			<div>
