@@ -94,7 +94,7 @@
 			ws.onclose = () => {
 				console.log('WebSocket connection closed');
 			};
-		}, 5000); // 5-second delay
+		}, 0); // 5-second delay
 	});
 
 	onDestroy(() => {
@@ -315,7 +315,7 @@
 										{data.updates}
 									</div>
 
-									{#if data.updates > 0}
+									{#if data.updates > 0 && data.updatablePackages.length > 0}
 										<div class="bg-primary text-primary-content collapse-arrow collapse">
 											<input
 												transition:fade={{ delay: 0, duration: 500 }}
@@ -462,44 +462,6 @@
 											<progress class="progress w-full"></progress>
 										{/if}
 									</div>
-
-									<!-- <div>
-										<div class="flex w-full justify-between">
-											<div class="">Min 5</div>
-											<div class="">
-												{convertFloatToPercentage(data.systemLoad.min5)}%
-											</div>
-										</div>
-
-										{#if data.systemLoad.min5 > 0}
-											<progress
-												class="progress progress-primary w-full"
-												value={convertFloatToPercentage(data.systemLoad.min5)}
-												max="100"
-											/>
-										{:else}
-											<progress class="progress w-full"></progress>
-										{/if}
-									</div>
-
-									<div>
-										<div class="flex w-full justify-between">
-											<div class="">Min 15</div>
-											<div class="">
-												{convertFloatToPercentage(data.systemLoad.min15)}%
-											</div>
-										</div>
-
-										{#if data.systemLoad.min15 > 0}
-											<progress
-												class="progress progress-primary w-full"
-												value={convertFloatToPercentage(data.systemLoad.min15)}
-												max="100"
-											/>
-										{:else}
-											<progress class="progress w-full"></progress>
-										{/if}
-									</div> -->
 								</div>
 							{:else}
 								<div class="animate-pulse text-lg">Calculating network usage...</div>
@@ -609,7 +571,8 @@
 				<div class="card-body h-full p-5">
 					<div>Running Services:</div>
 					{#if data.runningServices == null}
-						<div class="loading loading-spinner loading-md"></div>
+						<!-- <div class="loading loading-spinner loading-md"></div> -->
+						<div class="animate-pulse text-lg">Fetching running processes...</div>
 					{:else}
 						<div class="grid grid-cols-1 sm:grid-cols-2">
 							{#each data.runningServices as service}

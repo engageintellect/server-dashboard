@@ -1,16 +1,13 @@
 #!/usr/bin/env python3
-
 from fastapi import FastAPI, WebSocket
 import subprocess
 import uvicorn
 import asyncio
 import requests
 
-
 app = FastAPI()
 
 GLANCES_ENDPOINT = "https://engage-dev.com/glances/api/3"
-
 
 @app.get("/api/hostname")
 def get_hostname():
@@ -45,8 +42,6 @@ def get_cpu_usage():
 @app.get("/api/disk/usage")
 def get_disk_usage():
     return subprocess.getoutput("df / | awk 'NR==2 { printf(\"%.2f\\n\", $5) }'")
-    # disk_usage = requests.get(f'http://engage-dev.com:4322/api/3/fs')
-    # return disk_usage.json()
 
 
 @app.get("/api/load")
@@ -66,13 +61,13 @@ def get_network_usage(interface="eth0"):
     command = f"sudo apt update > /dev/null 2>&1 && apt list --upgradable 2>/dev/null | grep -v Listing | wc -l"
     return subprocess.getoutput(command)
 
+
 @app.get("/api/updatable-packages")
 def get_updatable_packages():
     # Redirect stderr to /dev/null to hide warnings
     command = 'apt list --upgradable 2>/dev/null'
     output = subprocess.getoutput(command)
-    upgradable_packages = [line for line in output.split(
-        '\n') if 'upgradable from' in line]
+    upgradable_packages = [line for line in output.split('\n') if 'upgradable from' in line]
     package_list = [line.split()[0] for line in upgradable_packages]
     return package_list
 
@@ -81,10 +76,8 @@ def get_updatable_packages():
 def get_network_usage(interface="eth0"):
     received_command = f"ifconfig {interface} | grep 'RX packets' | awk '{{printf \"%.2f\\n\", $5/1024/1024}}'"
     sent_command = f"ifconfig {interface} | grep 'TX packets' | awk '{{printf \"%.2f\\n\", $5/1024/1024}}'"
-
     received = subprocess.getoutput(received_command)
     sent = subprocess.getoutput(sent_command)
-
     return {"received": received, "sent": sent}
 
 
@@ -140,7 +133,7 @@ async def websocket_endpoint(websocket: WebSocket):
                 "runningServices": get_running_services(),
             }
             await websocket.send_json(data)
-            await asyncio.sleep(3)  # Send updated data every 5 seconds
+            await asyncio.sleep(5)  # Send updated data every 5 seconds
     except Exception as e:
         print(f"WebSocket connection error: {e}")
     finally:
