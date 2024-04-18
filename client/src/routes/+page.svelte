@@ -591,7 +591,7 @@
 					{#if data.runningProcesses == null}
 						<div class="loading loading-spinner loading-md"></div>
 					{:else}
-						{JSON.stringify(data.runningProcesses)}
+						<!-- {JSON.stringify(data.runningProcesses)} -->
 						<!-- <table class=" w-full table-auto">
 							<thead>
 								<tr>

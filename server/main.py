@@ -1,12 +1,11 @@
 #!/usr/bin/env python3
-from fastapi import FastAPI, HTTPException, WebSocket
+from fastapi import FastAPI, WebSocket
 import subprocess
 import uvicorn
 import asyncio
 import requests
 import os
 import json
-import shlex
 
 app = FastAPI()
 
@@ -101,7 +100,7 @@ def get_open_ports():
 @app.get("/api/services/running")
 def get_running_services():
     command = "systemctl list-units --type=service --state=running | grep '\.service' | awk '{print $1}'"
-    output = subprocess.run(command)
+    output = subprocess.getoutput(command)
     services = output.split('\n')
     return services
 
@@ -109,49 +108,6 @@ def get_running_services():
 def get_running_processes():
     processes = requests.get(f'{GLANCES_ENDPOINT}/processlist')
     return processes.json()
-    # command = '''ps aux --sort=-%mem | head -n 21 | awk 'NR>1 {print "{\"USER\":\"" $1 "\",\"PID\":\"" $2 "\",\"%CPU\":\"" $3 "\",\"%MEM\":\"" $4 "\",\"COMMAND\":\"" $11 " " $12 " " $13 " " $14 " " $15 " " $16 " " $17 " " $18 " " $19 " " $20 " " $21 "\"}"}' | jq -s .'''
-    # output = subprocess.getoutput(command)
-    # processes = output.split('\n')
-    # return processes
-
-# @app.get("/api/processes")
-# def get_running_processes():
-#     command = "ps aux --sort=-%mem | head -n 21"
-#     try:
-#         # Use subprocess.run to execute the command properly
-#         result = subprocess.run(command, shell=True, text=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        
-#         # Check for errors in execution
-#         if result.stderr:
-#             print("Error:", result.stderr)
-#             raise HTTPException(status_code=500, detail=result.stderr)
-
-#         # Parse the output to create a JSON-like structure
-#         lines = result.stdout.splitlines()
-#         processes = []
-#         for line in lines[1:]:  # Skip the header line
-#             parts = line.split(maxsplit=10)
-#             if len(parts) >= 11:
-#                 process = {
-#                     "USER": parts[0],
-#                     "PID": parts[1],
-#                     "%CPU": parts[2],
-#                     "%MEM": parts[3],
-#                     "COMMAND": parts[10]  # Assumes the command may include spaces beyond part[10]
-#                 }
-#                 processes.append(process)
-        
-#         return processes
-    
-#     except subprocess.CalledProcessError as e:
-#         print("Command failed:", e)
-#         raise HTTPException(status_code=500, detail=str(e))
-#     except Exception as e:
-#         print("Unexpected error:", str(e))
-#         raise HTTPException(status_code=500, detail=str(e))
-
-
-
 
 @app.websocket("/api/ws")
 async def websocket_endpoint(websocket: WebSocket):
