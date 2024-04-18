@@ -317,7 +317,7 @@
 
 									{JSON.stringify(data.updatablePackages)}
 
-									{#if data.updates > 0 && data.updatablePackages.length > 0}
+									{#if data.updates > 0}
 										<div
 											in:slide={{ delay: 0, duration: 500 }}
 											class="bg-primary text-primary-content collapse-arrow collapse"

@@ -71,7 +71,7 @@ def get_updates(interface="eth0"):
 @app.get("/api/updatable-packages")
 def get_updatable_packages():
     # Redirect stderr to /dev/null to hide warnings
-    command = 'apt list --upgradable 2>/dev/null'
+    command = 'sudo apt list --upgradable 2>/dev/null'
     output = subprocess.getoutput(command)
     upgradable_packages = [line for line in output.split('\n') if 'upgradable from' in line]
     package_list = [line.split()[0] for line in upgradable_packages]
