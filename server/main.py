@@ -130,11 +130,11 @@ def get_running_processes():
             parts = line.split(maxsplit=10)
             if len(parts) >= 11:
                 process = {
-                    "USER": parts[0],
-                    "PID": parts[1],
-                    "%CPU": parts[2],
-                    "%MEM": parts[3],
-                    "COMMAND": parts[10]  # Assumes the command may include spaces beyond part[10]
+                    "user": parts[0],
+                    "pid": parts[1],
+                    "cpu": parts[2],
+                    "mem": parts[3],
+                    "command": parts[10]  # Assumes the command may include spaces beyond part[10]
                 }
                 processes.append(process)
         
