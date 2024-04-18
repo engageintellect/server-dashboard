@@ -6,6 +6,7 @@ import asyncio
 import requests
 import os
 import json
+import shlex
 
 app = FastAPI()
 
@@ -104,13 +105,34 @@ def get_running_services():
     services = output.split('\n')
     return services
 
+# @app.get("/api/processes")
+# def get_running_processes():
+#     # processes = requests.get(f'{GLANCES_ENDPOINT}/processlist')
+#     # return processes.json()
+#     command = '''ps aux --sort=-%mem | head -n 21 | awk 'NR>1 {print "{\"USER\":\"" $1 "\",\"PID\":\"" $2 "\",\"%CPU\":\"" $3 "\",\"%MEM\":\"" $4 "\",\"COMMAND\":\"" $11 " " $12 " " $13 " " $14 " " $15 " " $16 " " $17 " " $18 " " $19 " " $20 " " $21 "\"}"}' | jq -s .'''
+#     output = subprocess.getoutput(command)
+#     processes = output.split('\n')
+#     return processes
+
 @app.get("/api/processes")
 def get_running_processes():
-    # processes = requests.get(f'{GLANCES_ENDPOINT}/processlist')
-    # return processes.json()
-    command = '''ps aux --sort=-%mem | head -n 21 | awk 'NR>1 {print "{\"USER\":\"" $1 "\",\"PID\":\"" $2 "\",\"%CPU\":\"" $3 "\",\"%MEM\":\"" $4 "\",\"COMMAND\":\"" $11 " " $12 " " $13 " " $14 " " $15 " " $16 " " $17 " " $18 " " $19 " " $20 " " $21 "\"}"}' | jq -s .'''
-    output = subprocess.getoutput(command)
-    processes = output.split('\n')
+    command = "ps aux --sort=-%mem | head -n 21"
+    result = subprocess.run(shlex.split(command), capture_output=True, text=True)
+    lines = result.stdout.splitlines()
+
+    processes = []
+    for line in lines[1:]:  # Skip the header line
+        parts = line.split(maxsplit=10)  # Split only into necessary parts
+        if len(parts) >= 11:
+            process = {
+                "USER": parts[0],
+                "PID": parts[1],
+                "%CPU": parts[2],
+                "%MEM": parts[3],
+                "COMMAND": parts[10]  # This assumes the command can contain spaces
+            }
+            processes.append(process)
+
     return processes
 
 @app.websocket("/api/ws")
