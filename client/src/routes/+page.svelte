@@ -601,7 +601,7 @@
 									<thead>
 										<tr>
 											<th class="text-left text-base">user</th>
-											<!-- <th class="text-left text-base">pid</th> -->
+											<th class="text-left text-base">pid</th>
 											<th class="text-left text-base">mem</th>
 											<th class="text-left text-base">cpu</th>
 											<th class="text-left text-base">command</th>
@@ -611,7 +611,7 @@
 										{#each data.runningProcesses as process}
 											<tr>
 												<td class="text-nowrap text-base font-thin">{process.user}</td>
-												<!-- <td class="text-base font-thin">{process.pid}</td> -->
+												<td class="text-base font-thin">{process.pid}</td>
 												<td class="text-base font-thin">{process.mem}%</td>
 												<td class="text-base font-thin">{process.cpu}%</td>
 												<td class="text-nowrap text-base font-thin">{process.command}</td>
