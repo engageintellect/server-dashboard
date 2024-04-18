@@ -4,6 +4,8 @@ import subprocess
 import uvicorn
 import asyncio
 import requests
+import os
+import json
 
 app = FastAPI()
 
@@ -46,8 +48,23 @@ def get_disk_usage():
 
 @app.get("/api/load")
 def get_load():
-    load = requests.get(f'{GLANCES_ENDPOINT}/load')
-    return load.json()
+    # load = requests.get(f'{GLANCES_ENDPOINT}/load')
+    # return load.json()
+
+    with open('/proc/loadavg', 'r') as file:
+        load_data = file.readline().split()
+    
+    min1, min5, min15 = load_data[:3]
+    cpucore = os.cpu_count()
+
+    load_dict = {
+        "min1": float(min1),
+        "min5": float(min5),
+        "min15": float(min15),
+        "cpucore": cpucore
+    }
+
+    return json.dumps(load_dict, indent=4)
 
 
 @app.get("/api/package-count")
