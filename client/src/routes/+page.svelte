@@ -161,9 +161,9 @@
 								<div class="loading loading-spinner loading-md"></div>
 							{:else}
 								<div class="flex items-center gap-2">
-									<div class="avatar online hidden lg:flex">
+									<div in:fade={{ delay: 0, duration: 500 }} class="avatar online hidden lg:flex">
 										<div class="bg-primary w-16 rounded-full">
-											<img src={robotImage} alt="avatar" />
+											<img class="scale-x-[-1]" src={robotImage} alt="avatar" />
 										</div>
 									</div>
 
@@ -314,8 +314,6 @@
 									<div class="pb-2 text-5xl">
 										{data.updates}
 									</div>
-
-									{JSON.stringify(data.updatablePackages)}
 
 									{#if data.updates > 0}
 										<div
@@ -593,7 +591,8 @@
 					{#if data.runningProcesses == null}
 						<div class="loading loading-spinner loading-md"></div>
 					{:else}
-						<table class=" w-full table-auto">
+						{JSON.stringify(data.runningProcesses)}
+						<!-- <table class=" w-full table-auto">
 							<thead>
 								<tr>
 									<th class="text-left text-base">Name</th>
@@ -610,7 +609,7 @@
 									</tr>
 								{/each}
 							</tbody>
-						</table>
+						</table> -->
 					{/if}
 				</div>
 			</div>

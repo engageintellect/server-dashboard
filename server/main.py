@@ -106,8 +106,12 @@ def get_running_services():
 
 @app.get("/api/processes")
 def get_running_processes():
-    processes = requests.get(f'{GLANCES_ENDPOINT}/processlist')
-    return processes.json()
+    # processes = requests.get(f'{GLANCES_ENDPOINT}/processlist')
+    # return processes.json()
+    command = '''ps aux --sort=-%mem | head -n 21 | awk 'NR>1 {print "{\"USER\":\"" $1 "\",\"PID\":\"" $2 "\",\"%CPU\":\"" $3 "\",\"%MEM\":\"" $4 "\",\"COMMAND\":\"" $11 " " $12 " " $13 " " $14 " " $15 " " $16 " " $17 " " $18 " " $19 " " $20 " " $21 "\"}"}' | jq -s .'''
+    output = subprocess.getoutput(command)
+    processes = output.split('\n')
+    return processes
 
 @app.websocket("/api/ws")
 async def websocket_endpoint(websocket: WebSocket):
