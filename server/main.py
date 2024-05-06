@@ -89,14 +89,14 @@ def get_updates():
     return subprocess.getoutput(command)
 
 
-# @app.get("/api/updatable-packages")
-# def get_updatable_packages():
-#     command = 'sudo apt list --upgradable 2>/dev/null'
-#     output = subprocess.getoutput(command)
-#     upgradable_packages = [line for line in output.split(
-#         '\n') if 'upgradable from' in line]
-#     package_list = [line.split()[0] for line in upgradable_packages]
-#     return package_list
+@app.get("/api/updatable-packages")
+def get_updatable_packages():
+    command = 'sudo apt list --upgradable 2>/dev/null'
+    output = subprocess.getoutput(command)
+    upgradable_packages = [line for line in output.split(
+        '\n') if 'upgradable from' in line]
+    package_list = [line.split()[0] for line in upgradable_packages]
+    return package_list
 
 
 @app.get("/api/network/usage")
