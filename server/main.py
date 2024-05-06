@@ -190,7 +190,7 @@ async def websocket_endpoint(websocket: WebSocket):
                 "packageCount": get_package_count(),
                 "updates": get_updates(),
                 # "updatablePackages": get_updatable_packages(),
-                # "networkUsage": get_network_usage(),
+                "networkUsage": get_network_usage(),
                 "networkLatency": get_network_latency(),
                 "networkPorts": get_open_ports(),
                 "runningServices": get_running_services(),

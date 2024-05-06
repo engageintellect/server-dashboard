@@ -12,6 +12,7 @@
 		| 'hostname'
 		| 'os'
 		| 'uptime'
+		| 'temp'
 		| 'memoryUsed'
 		| 'memoryAvailable'
 		| 'cpuUsage'
@@ -30,6 +31,7 @@
 		hostname: '/api/hostname',
 		os: '/api/os',
 		uptime: '/api/uptime',
+		temp: '/api/temp',
 		memoryUsed: '/api/memory/used',
 		memoryAvailable: '/api/memory/available',
 		cpuUsage: '/api/cpu/usage',
@@ -49,6 +51,7 @@
 		hostname: null,
 		os: null,
 		uptime: null,
+		temp: null,
 		memoryUsed: null,
 		memoryAvailable: null,
 		cpuUsage: null,
@@ -381,6 +384,14 @@
 											<div>CPU Cores:</div>
 											<div class="badge badge-primary text-xl">{data.systemLoad.cpucore}</div>
 										</div>
+
+										{#if data.temp !== null}
+											<div class="flex items-center gap-2">
+												<div>Temp:</div>
+												<div class="badge badge-primary py-4 text-2xl">{data.temp}</div>
+											</div>
+										{/if}
+
 										<!-- <div class="">{data.systemLoad.cpucore}</div> -->
 									</div>
 
