@@ -385,7 +385,7 @@
 											<div class="badge badge-primary text-xl">{data.systemLoad.cpucore}</div>
 										</div>
 
-										{#if data.temp !== null}
+										{#if data.hostname !== 'veronica'}
 											<div class="flex items-center gap-2">
 												<div>Temp:</div>
 												<div class="badge badge-primary py-4 text-2xl">{data.temp}</div>
