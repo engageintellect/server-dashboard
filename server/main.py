@@ -27,10 +27,13 @@ def get_os():
 def get_uptime():
     return subprocess.getoutput("uptime -p | sed 's/up //'").split(',')
 
+
 @app.get("/api/temp")
 def get_temp():
-    output = subprocess.getoutput("cat /sys/class/thermal/thermal_zone0/temp | awk '{printf \"%.2f°F\\n\", $1/1000 * 9/5 + 32}'")
+    output = subprocess.getoutput(
+        "cat /sys/class/thermal/thermal_zone0/temp | awk '{printf \"%.2f°F\\n\", $1/1000 * 9/5 + 32}'")
     return output.strip()
+
 
 @app.get("/api/memory/used")
 def get_used_ram():
@@ -96,15 +99,15 @@ def get_updates():
 #     return package_list
 
 
-# @app.get("/api/network/usage")
-# def get_network_usage(interface="lo"):
-#     received_command = f"ifconfig {
-#         interface} | grep 'RX packets' | awk '{{printf \"%.2f\\n\", $5/1024/1024}}'"
-#     sent_command = f"ifconfig {
-#         interface} | grep 'TX packets' | awk '{{printf \"%.2f\\n\", $5/1024/1024}}'"
-#     received = subprocess.getoutput(received_command)
-#     sent = subprocess.getoutput(sent_command)
-#     return {"received": received, "sent": sent}
+@app.get("/api/network/usage")
+def get_network_usage(interface="lo"):
+    received_command = f"ifconfig {
+        interface} | grep 'RX packets' | awk '{{printf \"%.2f\\n\", $5/1024/1024}}'"
+    sent_command = f"ifconfig {
+        interface} | grep 'TX packets' | awk '{{printf \"%.2f\\n\", $5/1024/1024}}'"
+    received = subprocess.getoutput(received_command)
+    sent = subprocess.getoutput(sent_command)
+    return {"received": received, "sent": sent}
 
 
 @app.get("/api/network/latency")
@@ -203,6 +206,6 @@ async def websocket_endpoint(websocket: WebSocket):
         print(f"WebSocket connection closed with: {websocket.client}")
 
 if __name__ == "__main__":
-    uvicorn.run(app, host='0.0.0.0', port=4321)
+    uvicorn.run(app, host='0.0.0.0', port=4320)
     # uvicorn.run("main:app", host="0.0.0.0", port=4321, ssl_keyfile="/etc/letsencrypt/live/engage-dev.com/privkey.pem",
     #            ssl_certfile="/etc/letsencrypt/live/engage-dev.com/fullchain.pem")
