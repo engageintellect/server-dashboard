@@ -101,10 +101,8 @@ def get_updates():
 
 @app.get("/api/network/usage")
 def get_network_usage(interface="lo"):
-    received_command = f"ifconfig {
-        interface} | grep 'RX packets' | awk '{{printf \"%.2f\\n\", $5/1024/1024}}'"
-    sent_command = f"ifconfig {
-        interface} | grep 'TX packets' | awk '{{printf \"%.2f\\n\", $5/1024/1024}}'"
+    received_command = f"ifconfig {interface} | grep 'RX packets' | awk '{{printf \"%.2f\\n\", $5/1024/1024}}'"
+    sent_command = f"ifconfig {interface} | grep 'TX packets' | awk '{{printf \"%.2f\\n\", $5/1024/1024}}'"
     received = subprocess.getoutput(received_command)
     sent = subprocess.getoutput(sent_command)
     return {"received": received, "sent": sent}
